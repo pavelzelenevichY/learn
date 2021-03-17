@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
 
 namespace Codifi\Training\Setup\Patch\Data;
 
