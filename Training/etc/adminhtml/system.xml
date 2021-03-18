@@ -23,6 +23,9 @@
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="message" translate="label comment"  type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Message</label>
+                </field>
             </group>
         </section>
     </system>

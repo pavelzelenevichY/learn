@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" content="1column">
+    <body>
+        <referenceContainer name="content">
+            <container htmlClass="hold" htmlTag="div">
+                <block class="Codifi\Training\Block\Account\Dashboard\CreditHold" name="codifi.training.layout.credithold" template="Codifi_Training::account/dashboard/credithold.phtml"> </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>
