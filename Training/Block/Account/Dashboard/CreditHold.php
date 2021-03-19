@@ -94,7 +94,9 @@ class CreditHold extends Template
         return $enabled;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getMessage()
     {
         return $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
