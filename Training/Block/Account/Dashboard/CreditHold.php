@@ -12,6 +12,7 @@ use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\ObjectManager;
+use Magento\Tests\NamingConvention\true\mixed;
 
 /**
  * Class CreditHold
@@ -58,9 +59,9 @@ class CreditHold extends Template
     /**
      * Get credit_hold attribute
      *
-     * @return string
+     * @return int
      */
-    private function getCustomerAttr() : string
+    private function getCustomerAttr() : int
     {
         $objectManager = ObjectManager::getInstance();
         $customerSession = $objectManager->create('Magento\Customer\Model\Session');
@@ -69,7 +70,7 @@ class CreditHold extends Template
             $customer = $customerSession->getCustomer();
             $customerCreditHold = $customer->getData('credit_hold');
         } else {
-            $customerCreditHold = '';
+            $customerCreditHold = 0;
         }
 
         return $customerCreditHold;
@@ -78,20 +79,35 @@ class CreditHold extends Template
     /**
      * Get options enabled and message value and check customer attribute.
      *
-     * @return string
+     * @return int
      */
-    public function getOptionCreditHoldEnable() : string
+    public function getOptionCreditHoldEnable() : int
     {
         $optionIsEnable = $this->_scopeConfig->getValue(self::PATH_OPTION_ENABLE);
+        if ($optionIsEnable === '1') {
+            $enabled = 1;
+        } else {
+            $enabled = 0;
+        }
+
+        return $enabled;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getMessage()
+    {
         if (
-            $optionIsEnable === '1' &&
-            $this->getCustomerAttr() === '1'
+            $this->getOptionCreditHoldEnable() === 1 &&
+            $this->getCustomerAttr() === 1
         ) {
             $message = $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
         } else {
             $message = '';
         }
 
+//        die(var_dump($this->getCustomerAttr(), $this->getOptionCreditHoldEnable(), $message));
         return $message;
     }
 }
