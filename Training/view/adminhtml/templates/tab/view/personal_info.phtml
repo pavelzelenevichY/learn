@@ -1,0 +1,48 @@
+<?php
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
+
+/**
+ * @var Codifi\Training\Block\Adminhtml\Edit\Tab\View\PersonalInfo $block
+ */
+?>
+<?php if (
+    $block->getOptions() === 'ads'
+): ?>
+    <div class="confirmation-modal-content">
+        <p><?= $block->getMessage()?></p>
+    </div>
+    <script>
+        require([
+            'jquery',
+            'Magento_Ui/js/modal/confirm'
+        ], function ($) {
+            'use strict';
+
+            $('.confirmation-modal-content').confirm({
+                actions: {
+                    confirm: function() {
+                        // do something when the confirmation button is clicked
+                    },
+                    cancel: function() {
+                        // do something when the cancel button is clicked
+                    },
+                    always: function() {
+                        // do something when the modal is closed
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('OK'),
+                    class: 'action primary action-accept',
+                    click: function (event) {
+                        this.closeModal(event, true);
+                    }
+                }]
+            });
+        });
+    </script>
+<?php endif; ?>
