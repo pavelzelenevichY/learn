@@ -64,7 +64,7 @@ class CreditHold extends Template
     }
 
     /**
-     * Get credit_hold attribute
+     * Get credit_hold attribute value
      *
      * @return int
      */
@@ -95,10 +95,41 @@ class CreditHold extends Template
     }
 
     /**
+     * Flag for onse show popup
+     *
+     * @return bool
+     */
+    public function getFlag() : bool
+    {
+        if (
+            !empty($this->session->getData('flag')) &&
+            $this->session->getData('flag') === true
+        ) {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+
+        return $flag;
+    }
+
+    /**
+     * Set flag value true
+     */
+    private function setFlag() : void
+    {
+        $this->session->setData('flag', true);
+    }
+
+    /**
+     * Get message
+     *
      * @return mixed
      */
     public function getMessage()
     {
+        $this->setFlag();
+
         return $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
     }
 }
