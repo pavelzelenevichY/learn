@@ -11,8 +11,7 @@ namespace Codifi\Training\Block\Account\Dashboard;
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\App\ObjectManager;
-use Magento\Tests\NamingConvention\true\mixed;
+use Magento\Customer\Model\Session;
 
 /**
  * Class CreditHold
@@ -35,6 +34,11 @@ class CreditHold extends Template
     const PATH_OPTION_MESSAGE = 'codifi/credit_hold/message';
 
     /**
+     * @var Session
+     */
+    private $session;
+
+    /**
      * Block Repository Interface
      *
      * @var BlockRepositoryInterface
@@ -43,15 +47,18 @@ class CreditHold extends Template
 
     /**
      * CreditHold constructor.
+     * @param Session $session
      * @param BlockRepositoryInterface $blockRepository
      * @param Context $context
      * @param array $data
      */
     public function __construct(
+        Session $session,
         BlockRepositoryInterface $blockRepository,
         Context $context,
         array $data = []
     ) {
+        $this->session = $session;
         $this->blockRepository = $blockRepository;
         parent::__construct($context, $data);
     }
@@ -61,19 +68,13 @@ class CreditHold extends Template
      *
      * @return int
      */
-    private function getCustomerAttr() : int
+    public function getCustomerAttr() : int
     {
-        $objectManager = ObjectManager::getInstance();
-        $customerSession = $objectManager->create('Magento\Customer\Model\Session');
-        if ($customerSession->isLoggedIn())
-        {
-            $customer = $customerSession->getCustomer();
-            $customerCreditHold = $customer->getData('credit_hold');
-        } else {
-            $customerCreditHold = 0;
-        }
+        $customerData = $this->session->getCustomerData();
+        $customerAttribute = $customerData->getCustomAttribute('credit_hold');
+        $value = $customerAttribute->getValue();
 
-        return $customerCreditHold;
+        return $value;
     }
 
     /**
@@ -93,21 +94,9 @@ class CreditHold extends Template
         return $enabled;
     }
 
-    /**
-     * @return mixed|string
-     */
+
     public function getMessage()
     {
-        if (
-            $this->getOptionCreditHoldEnable() === 1 &&
-            $this->getCustomerAttr() === 1
-        ) {
-            $message = $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
-        } else {
-            $message = '';
-        }
-
-//        die(var_dump($this->getCustomerAttr(), $this->getOptionCreditHoldEnable(), $message));
-        return $message;
+        return $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
     }
 }
