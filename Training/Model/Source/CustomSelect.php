@@ -8,37 +8,29 @@
 
 namespace Codifi\Training\Model\Source;
 
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+
 /**
  * Class CustomSelect
  * @package Codifi\Training\Model\Source
  */
-class CustomSelect extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class CustomSelect extends AbstractSource
 {
     /**
-     * @return array|array[]|null
+     * Get all options
+     *
+     * @return array
      */
-    public function getAllOptions()
+    public function getAllOptions() : array
     {
-        if (null === $this->_options) {
+        if (null === $this->_options)
+        {
             $this->_options = [
                 ['label' => __('Yes'), 'value' => 1],
                 ['label' => __('No'), 'value' => 0],
             ];
         }
-        return $this->_options;
-    }
 
-    /**
-     * @param int|string $value
-     * @return bool|mixed|string
-     */
-    public function getOptionText($value)
-    {
-        foreach ($this->getAllOptions() as $option) {
-            if ($option['value'] == $value) {
-                return $option['label'];
-            }
-        }
-        return false;
+        return $this->_options;
     }
 }
