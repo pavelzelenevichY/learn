@@ -23,8 +23,7 @@ class CustomSelect extends AbstractSource
      */
     public function getAllOptions() : array
     {
-        if (null === $this->_options)
-        {
+        if (null === $this->_options) {
             $this->_options = [
                 ['label' => __('Yes'), 'value' => 1],
                 ['label' => __('No'), 'value' => 0],

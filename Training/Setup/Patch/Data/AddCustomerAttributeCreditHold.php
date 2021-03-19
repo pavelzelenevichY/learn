@@ -87,8 +87,12 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface
 
     /**
      * Add 'Credit Hold' customer attribute
+     *
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Zend_Validate_Exception
      */
-    public function apply()
+    public function apply() : void
     {
         $moduleDataSetupConnection = $this->moduleDataSetup->getConnection();
         $moduleDataSetupConnection->startSetup();
