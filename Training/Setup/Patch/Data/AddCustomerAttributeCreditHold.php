@@ -9,41 +9,58 @@
 namespace Codifi\Training\Setup\Patch\Data;
 
 use Magento\Framework\Setup\Patch\DataPatchInterface;
-use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Customer\Setup\CustomerSetupFactory;
 use Magento\Customer\Setup\CustomerSetup;
 use Magento\Customer\Model\ResourceModel\Attribute as AttributeResourceModel;
 use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+use Magento\Customer\Model\Customer;
+use Codifi\Training\Model\Source\CustomSelect;
 
 /**
  * Class AddCustomerAttributeCreditHold
  * @package Codifi\Training\Setup\Patch\Data
  */
-class AddCustomerAttributeCreditHold implements DataPatchInterface, PatchRevertableInterface
+class AddCustomerAttributeCreditHold implements DataPatchInterface
 {
-
-    const CODE_CUSTOM_ATTRIBUTE = 'credit_hold';
-
-    const LABEL_CUSTOM_ATTRIBUTE = 'Credit Hold';
+    /**
+     * Constant code of custom customer attribute credit_hold.
+     *
+     * @var string
+     */
+    const ATTRIBUTE_CODE = 'credit_hold';
 
     /**
+     * Constant label of custom customer attribute credit_hold.
+     *
+     * @var string
+     */
+    const ATTRIBUTE_LABEL = 'Credit Hold';
+
+    /**
+     * An additional pre-configuration environment that creates a database connection.
+     *
      * @var ModuleDataSetupInterface
-     * An additional pre-configuration environment that creates a database connection
      */
     private $moduleDataSetup;
 
     /**
+     * Customer Setup Factory
+     *
      * @var CustomerSetupFactory
      */
     private $customerSetupFactory;
 
     /**
+     * Attribute Set Factory
+     *
      * @var AttributeSetFactory
      */
     private $attributeSetFactory;
 
     /**
+     * Attribute Resource Model
+     *
      * @var AttributeResourceModel
      */
     private $attributeResourceModel;
@@ -73,27 +90,28 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface, PatchReverta
      */
     public function apply()
     {
-        $this->moduleDataSetup->getConnection()->startSetup();
+        $moduleDataSetupConnection = $this->moduleDataSetup->getConnection();
+        $moduleDataSetupConnection->startSetup();
+
         /** @var CustomerSetup $customerSetup */
         $customerSetup = $this->customerSetupFactory->create(['setup' => $this->moduleDataSetup]);
 
-        $customerEntity = $customerSetup->getEavConfig()->getEntityType(\Magento\Customer\Model\Customer::ENTITY);
+        $customerSetEavConfig = $customerSetup->getEavConfig();
+
+        $customerEntity = $customerSetEavConfig->getEntityType(Customer::ENTITY);
         $attributeSetId = $customerEntity->getDefaultAttributeSetId();
 
         $attributeSet = $this->attributeSetFactory->create();
         $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
 
         $customerSetup->addAttribute(
-            \Magento\Customer\Model\Customer::ENTITY,
-            self::CODE_CUSTOM_ATTRIBUTE,
+            Customer::ENTITY,
+            self::ATTRIBUTE_CODE,
             [
-                'attribute_set_id' => '',
-                'attribute_group_id' => '',
-
                 'type' => 'int',
-                'label' => self::LABEL_CUSTOM_ATTRIBUTE,
+                'label' => self::ATTRIBUTE_LABEL,
                 'input' => 'select',
-                'source' => \Codifi\Training\Model\Source\CustomSelect::class,
+                'source' => CustomSelect::class,
                 'sort_order' => '30',
                 'visible' => true,
                 'required' => false,
@@ -108,7 +126,8 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface, PatchReverta
             ]
         );
 
-        $attribute = $customerSetup->getEavConfig()->getAttribute(\Magento\Customer\Model\Customer::ENTITY, self::CODE_CUSTOM_ATTRIBUTE)->addData([
+        $getAttribute = $customerSetEavConfig->getAttribute(Customer::ENTITY, self::ATTRIBUTE_CODE);
+        $attribute = $getAttribute->addData([
             'attribute_set_id' => $attributeSetId,
             'attribute_group_id' => $attributeGroupId,
             'used_in_forms' => [
@@ -118,22 +137,7 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface, PatchReverta
 
         $this->attributeResourceModel->save($attribute);
 
-        $this->moduleDataSetup->getConnection()->endSetup();
-    }
-
-    /**
-     * Delete 'Credit Hold' customer attribute. This method will be executed to remove a custom attribute
-     * if you run the command "bin/magento module:uninstall Codifi_Training"
-     * or "bin/magento module:uninstall --non-composer Codifi_Training".
-     */
-    public function revert()
-    {
-        $this->moduleDataSetup->getConnection()->startSetup();
-        /** @var CustomerSetup $customerSetup */
-        $customerSetup = $this->attributeSetFactory->create(['setup' => $this->moduleDataSetup]);
-        $customerSetup->removeAttribute(\Magento\Customer\Model\Customer::ENTITY, self::CODE_CUSTOM_ATTRIBUTE);
-
-        $this->moduleDataSetup->getConnection()->endSetup();
+        $moduleDataSetupConnection->endSetup();
     }
 
     /**
