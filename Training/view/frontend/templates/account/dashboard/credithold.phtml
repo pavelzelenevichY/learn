@@ -12,7 +12,8 @@
 ?>
 <?php if (
     $block->getOptionCreditHoldEnable() === 1 &&
-    $block->getCustomerAttr() === 1
+    $block->getCustomerAttr() === 1 &&
+    $block->getFlag() !== true
 ): ?>
     <div class="confirmation-modal-content">
         <p><?= $block->getMessage() ?></p>
