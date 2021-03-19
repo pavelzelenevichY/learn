@@ -9,10 +9,10 @@
 /**
  * @var Codifi\Training\Block\Account\Dashboard\CreditHold $block
  */
-if (!empty($block->getOptionCreditHoldEnable())): ?>
+if ($block->getMessage() !== null): ?>
 
     <div class="confirmation-modal-content">
-        <p><?= $block->getOptionCreditHoldEnable() ?></p>
+        <p><?= $block->getMessage() ?></p>
     </div>
     <script>
         require([
