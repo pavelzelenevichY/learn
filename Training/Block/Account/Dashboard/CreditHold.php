@@ -6,12 +6,16 @@
  * @author      Pavel Zelenevich <pzelenevich@codifi.me>
  */
 
+declare(strict_types=1);
+
 namespace Codifi\Training\Block\Account\Dashboard;
 
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Customer\Model\Session;
+use Codifi\Training\Setup\Patch\Data\AddCustomerAttributeCreditHold;
+use Magento\Framework\Escaper;
 
 /**
  * Class CreditHold
@@ -34,6 +38,15 @@ class CreditHold extends Template
     const PATH_OPTION_MESSAGE = 'codifi/credit_hold/message';
 
     /**
+     * Name of session attribute for once show popup.
+     *
+     * @var string
+     */
+    const SESSION_FLAG = 'flag';
+
+    /**
+     * Customer session.
+     *
      * @var Session
      */
     private $session;
@@ -46,16 +59,22 @@ class CreditHold extends Template
     private $blockRepository;
 
     /**
-     * CreditHold constructor.
-     * @param Session $session
-     * @param BlockRepositoryInterface $blockRepository
+     * @var Escaper
+     */
+    public $escaper;
+
+    /**
+     * CreditHold constructor
+     *
      * @param Context $context
+     * @param Session $session
+     * @param BlockRepositoryInterface $blockRepository,
      * @param array $data
      */
     public function __construct(
+        Context $context,
         Session $session,
         BlockRepositoryInterface $blockRepository,
-        Context $context,
         array $data = []
     ) {
         $this->session = $session;
@@ -66,32 +85,28 @@ class CreditHold extends Template
     /**
      * Get credit_hold attribute value
      *
-     * @return int
+     * @return bool
      */
-    public function getCustomerAttr() : int
+    public function getCustomerAttr() : bool
     {
         $customerData = $this->session->getCustomerData();
-        $customerAttribute = $customerData->getCustomAttribute('credit_hold');
-        $value = $customerAttribute->getValue();
-
+        $customerAttribute = $customerData->getCustomAttribute(AddCustomerAttributeCreditHold::ATTRIBUTE_CODE);
+        if ($customerAttribute !== null) {
+            $value = (bool)$customerAttribute->getValue();
+        } else {
+            $value = 0;
+        }
         return $value;
     }
 
     /**
      * Get options enabled and message value and check customer attribute.
      *
-     * @return int
+     * @return bool
      */
-    public function getOptionCreditHoldEnable() : int
+    public function isCreditHoldConfigEnabled() : bool
     {
-        $optionIsEnable = $this->_scopeConfig->getValue(self::PATH_OPTION_ENABLE);
-        if ($optionIsEnable === '1') {
-            $enabled = 1;
-        } else {
-            $enabled = 0;
-        }
-
-        return $enabled;
+        return (bool)$this->_scopeConfig->getValue(self::PATH_OPTION_ENABLE, $this->_scopeConfig::SCOPE_TYPE_DEFAULT);
     }
 
     /**
@@ -101,35 +116,25 @@ class CreditHold extends Template
      */
     public function getFlag() : bool
     {
-        if (
-            !empty($this->session->getData('flag')) &&
-            $this->session->getData('flag') === true
-        ) {
-            $flag = true;
-        } else {
-            $flag = false;
-        }
-
-        return $flag;
+        return (bool)$this->session->getData(self::SESSION_FLAG);
     }
 
     /**
      * Set flag value true
      */
-    private function setFlag() : void
+    public function setFlag() : void
     {
-        $this->session->setData('flag', true);
+        $this->session->setData(self::SESSION_FLAG, true);
     }
 
     /**
      * Get message
      *
-     * @return mixed
+     * @return string
      */
-    public function getMessage()
+    public function getMessage() : string
     {
-        $this->setFlag();
-
-        return $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
+        $message = $this->_scopeConfig->getValue(self::PATH_OPTION_MESSAGE);
+        return $this->escapeHtml($message);
     }
 }
