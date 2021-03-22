@@ -11,12 +11,15 @@
  */
 ?>
 <?php if (
-    $block->getOptionCreditHoldEnable() === 1 &&
-    $block->getCustomerAttr() === 1 &&
-    $block->getFlag() !== true
+    $block->isCreditHoldConfigEnabled() &&
+    $block->getCustomerAttr() &&
+    !$block->getFlag()
 ): ?>
     <div class="confirmation-modal-content">
-        <p><?= $block->getMessage() ?></p>
+        <p><?php
+            echo $block->getMessage();
+            $block->setFlag();
+            ?></p>
     </div>
     <script>
         require([
@@ -26,17 +29,6 @@
             'use strict';
 
             $('.confirmation-modal-content').confirm({
-                actions: {
-                    confirm: function() {
-                        // do something when the confirmation button is clicked
-                    },
-                    cancel: function() {
-                        // do something when the cancel button is clicked
-                    },
-                    always: function() {
-                        // do something when the modal is closed
-                    }
-                },
                 buttons: [{
                     text: $.mage.__('OK'),
                     class: 'action primary action-accept',
