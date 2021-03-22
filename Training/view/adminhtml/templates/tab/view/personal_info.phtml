@@ -11,10 +11,14 @@
  */
 ?>
 <?php if (
-    $block->getOptions() === 'ads'
+    $block->isCreditHoldConfigEnabled() &&
+    $block->getCustomerAttr() &&
+    !$block->checkId()
 ): ?>
     <div class="confirmation-modal-content">
-        <p><?= $block->getMessage()?></p>
+        <p><?= $block->getMessage();
+            $block->setCustomerIdToAdminSession();
+            ?></p>
     </div>
     <script>
         require([
@@ -24,17 +28,6 @@
             'use strict';
 
             $('.confirmation-modal-content').confirm({
-                actions: {
-                    confirm: function() {
-                        // do something when the confirmation button is clicked
-                    },
-                    cancel: function() {
-                        // do something when the cancel button is clicked
-                    },
-                    always: function() {
-                        // do something when the modal is closed
-                    }
-                },
                 buttons: [{
                     text: $.mage.__('OK'),
                     class: 'action primary action-accept',
@@ -46,3 +39,4 @@
         });
     </script>
 <?php endif; ?>
+
