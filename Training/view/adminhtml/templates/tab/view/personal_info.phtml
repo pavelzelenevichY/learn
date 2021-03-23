@@ -12,9 +12,7 @@
 ?>
 <?php if ($block->check()): ?>
     <div class="confirmation-modal-content">
-        <p><?= $block->getMessage();
-            $block->setCustomerIdToAdminSession();
-            ?></p>
+        <p><?= $block->escapeHtml($block->getMessage()) ?></p>
     </div>
     <script>
         require([

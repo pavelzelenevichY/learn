@@ -20,10 +20,18 @@ use Magento\Framework\View\Element\Context;
 class AddIdAfterSave implements ObserverInterface
 {
     /**
+     * Admin session
+     *
      * @var AdminSession
      */
     public $adminSession;
 
+    /**
+     * AddIdAfterSave constructor.
+     *
+     * @param Context $context
+     * @param AdminSession $adminSession
+     */
     public function __construct(
         Context $context,
         AdminSession $adminSession
@@ -33,6 +41,8 @@ class AddIdAfterSave implements ObserverInterface
     }
 
     /**
+     * Execute function
+     *
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
@@ -41,6 +51,6 @@ class AddIdAfterSave implements ObserverInterface
         $event = $observer->getEvent();
         $customer = $event->getCustomer();
         $id = (int)$customer->getId();
-        $this->adminSession->setFromSave($id);
+        $this->adminSession->setCustomerIdToAdminSessionFromSave($id);
     }
 }

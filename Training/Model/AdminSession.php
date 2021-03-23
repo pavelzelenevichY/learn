@@ -111,11 +111,10 @@ class AdminSession
      * @param $customerId
      * @return void
      */
-    public function setFromSave($customerId) : void
+    public function setCustomerIdToAdminSessionFromSave($customerId) : void
     {
         $customersId = $this->getCustomersId();
         $customersId[] = $customerId;
-        $this->authSession->setData('customers_id', $customersId);
         $this->authSession->setData('customers_id', $customersId);
     }
 
@@ -140,7 +139,7 @@ class AdminSession
      *
      * @return bool
      */
-    public function checkId() : bool
+    public function checkCustomerIdInArrayAdminSession() : bool
     {
         $currentCustomerId = $this->getCustomerId();
         $arrayCustomersId = $this->getCustomersId();
@@ -161,7 +160,7 @@ class AdminSession
      */
     public function isCreditHoldConfigEnabled() : bool
     {
-        return $this->configProvider->isOptionEnable();
+        return $this->configProvider->isOptionCreditHoldEnable();
     }
 
     /**
@@ -171,14 +170,10 @@ class AdminSession
      */
     public function lastCheck() : bool
     {
-        $this->getCustomerAttr();
-        $this->isCreditHoldConfigEnabled();
-        $this->checkId();
-
         if (
         $this->getCustomerAttr() &&
         $this->isCreditHoldConfigEnabled() &&
-        !$this->checkId()
+        !$this->checkCustomerIdInArrayAdminSession()
         ) {
             $check = true;
         } else {
@@ -186,5 +181,17 @@ class AdminSession
         }
 
         return $check;
+    }
+
+    /**
+     * Get message and set customer id to admin session
+     *
+     * @return string
+     */
+    public function getMessageAndSetCustomerIdToAdminSession() : string
+    {
+        $this->setCustomerIdToAdminSession();
+
+        return $this->configProvider->getMessage();
     }
 }

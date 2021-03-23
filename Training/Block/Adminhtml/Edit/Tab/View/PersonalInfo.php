@@ -13,7 +13,6 @@ namespace Codifi\Training\Block\Adminhtml\Edit\Tab\View;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
 use Codifi\Training\Model\AdminSession;
-use Codifi\Training\Model\ConfigProvider;
 
 /**
  * Class PersonalInfo
@@ -29,38 +28,19 @@ class PersonalInfo extends Template
     public $adminSession;
 
     /**
-     * Config provider
-     *
-     * @var ConfigProvider
-     */
-    private $configProvider;
-
-    /**
      * PersonalInfo constructor.
+     *
      * @param Context $context
      * @param AdminSession $adminSession
-     * @param ConfigProvider $configProvider
      * @param array $data
      */
     public function __construct(
         Context $context,
         AdminSession $adminSession,
-        ConfigProvider $configProvider,
         array $data = []
     ) {
         $this->adminSession = $adminSession;
-        $this->configProvider = $configProvider;
         parent::__construct($context, $data);
-    }
-
-    /**
-     * Set customer id to array in admin session.
-     *
-     * @return void
-     */
-    public function setCustomerIdToAdminSession() : void
-    {
-        $this->adminSession->setCustomerIdToAdminSession();
     }
 
     /**
@@ -80,8 +60,6 @@ class PersonalInfo extends Template
      */
     public function getMessage() : string
     {
-        $message = $this->configProvider->getMessage();
-
-        return $this->escapeHtml($message);
+        return $this->adminSession->getMessageAndSetCustomerIdToAdminSession();
     }
 }

@@ -55,11 +55,12 @@ class ConfigProvider
 
     /**
      * ConfigProvider constructor.
+     *
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig
-    ){
+    ) {
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -68,9 +69,9 @@ class ConfigProvider
      *
      * @return bool
      */
-    public function isOptionEnable() : bool
+    public function isOptionCreditHoldEnable() : bool
     {
-        return (bool)$this->scopeConfig->getValue(self::PATH_OPTION_ENABLE, $this->scopeConfig::SCOPE_TYPE_DEFAULT);
+        return $this->scopeConfig->isSetFlag(self::PATH_OPTION_ENABLE, $this->scopeConfig::SCOPE_TYPE_DEFAULT);
     }
 
     /**
