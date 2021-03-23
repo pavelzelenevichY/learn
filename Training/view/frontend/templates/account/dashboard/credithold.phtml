@@ -10,16 +10,9 @@
  * @var Codifi\Training\Block\Account\Dashboard\CreditHold $block
  */
 ?>
-<?php if (
-    $block->isCreditHoldConfigEnabled() &&
-    $block->getCustomerAttr() &&
-    !$block->getFlag()
-): ?>
+<?php if ($block->check()): ?>
     <div class="confirmation-modal-content">
-        <p><?php
-            echo $block->getMessage();
-            $block->setFlag();
-            ?></p>
+        <p><?= $block->escapeHtml($block->getMessage()) ?></p>
     </div>
     <script>
         require([
