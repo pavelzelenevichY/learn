@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
 
 namespace Codifi\Training\Controller\Note;
 
@@ -9,6 +14,10 @@ use Magento\Framework\App\ResponseInterface;
 use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResource;
 
+/**
+ * Class Save
+ * @package Codifi\Training\Controller\Note
+ */
 class Save extends Action
 {
     /**
