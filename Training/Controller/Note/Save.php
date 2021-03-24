@@ -12,7 +12,10 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Codifi\Training\Model\CustomerNote;
+use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResource;
+use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Save
@@ -28,11 +31,25 @@ class Save extends Action
     private $customerNote;
 
     /**
+     * Customer note factory
+     *
+     * @var CustomerNoteFactory
+     */
+    private $customerNoteFactory;
+
+    /**
      * Customer note resource model.
      *
      * @var CustomerNoteResource
      */
     private $customerNoteResource;
+
+    /**
+     * Json factory
+     *
+     * @var JsonFactory
+     */
+    private $jsonFactory;
 
     /**
      * Save constructor.
@@ -43,10 +60,14 @@ class Save extends Action
      */
     public function __construct(
         Context $context,
+        JsonFactory $jsonFactory,
+        CustomerNoteFactory $customerNoteFactory,
         CustomerNote $customerNote,
         CustomerNoteResource $customerNoteResource
     ) {
         parent::__construct($context);
+        $this->jsonFactory = $jsonFactory;
+        $this->customerNoteFactory = $customerNoteFactory;
         $this->customerNote = $customerNote;
         $this->customerNoteResource = $customerNoteResource;
     }
@@ -54,24 +75,34 @@ class Save extends Action
     /**
      * Execute
      *
-     * @return ResponseInterface|\Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface
+     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface|string
      */
     public function execute()
     {
-        $data = $this->getRequest()->getParams();
+        $data = $this->getRequest()->getParam('note');
 
-        $customerNoteModel = $this->customerNote;
-        $customerNoteModel->setData($data);
+        $customerNoteModelFactory = $this->customerNoteFactory->create();
+        $resultJson = $this->jsonFactory->create();
+
+        if (!$data) {
+            $response =  $resultJson->setData([
+                'success' => false,
+                'message' => 'Note text is missed.'
+            ]);
+        } else {
+            $customerNoteModelFactory->setData($data);
+            $response =  $resultJson->setData([
+                'success' => true,
+                'message' => ''
+            ]);
+        }
 
         try {
-            $this->customerNoteResource->save($customerNoteModel);
-            $this->messageManager->addSuccessMessage('');
-        } catch (\Exception $exception) {
-            $this->messageManager->addErrorMessage(__('Note text is missed.'));
+            $customerNoteModelFactory->save($data);
+        } catch (LocalizedException $exception) {
+            $response = $exception->getMessage();
         }
-        $redirect = $this->resultRedirectFactory->create();
-        $redirect->setPath('/');
 
-        return $redirect;
+        return $response;
     }
 }
