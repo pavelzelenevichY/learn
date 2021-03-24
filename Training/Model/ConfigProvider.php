@@ -12,7 +12,6 @@ namespace Codifi\Training\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Codifi\Training\Setup\Patch\Data\AddCustomerAttributeCreditHold;
 
 /**
  * Class ConfigProvider
@@ -46,7 +45,7 @@ class ConfigProvider
      *
      * @var string
      */
-    const ATTRIBUTE_CODE_CREDIT_HOLD = AddCustomerAttributeCreditHold::ATTRIBUTE_CODE;
+    const ATTRIBUTE_CODE_CREDIT_HOLD = 'credit_hold';
 
     /**
      * Scope config.
@@ -77,7 +76,7 @@ class ConfigProvider
     }
 
     /**
-     * Get message.
+     * Get message
      *
      * @return string
      */
