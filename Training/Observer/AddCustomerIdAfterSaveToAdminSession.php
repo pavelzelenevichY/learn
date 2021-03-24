@@ -6,37 +6,35 @@
  * @author      Pavel Zelenevich <pzelenevich@codifi.me>
  */
 
+declare(strict_types=1);
+
 namespace Codifi\Training\Observer;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Event\ObserverInterface;
-use Codifi\Training\Model\AdminSession;
-use Magento\Framework\View\Element\Context;
+use Codifi\Training\Model\AdminSessionManagement;
 
 /**
- * Class AddIdAfterSave
+ * Class AddCustomerIdAfterSaveToAdminSession
  * @package Codifi\Training\Observer
  */
-class AddIdAfterSave implements ObserverInterface
+class AddCustomerIdAfterSaveToAdminSession implements ObserverInterface
 {
     /**
      * Admin session
      *
-     * @var AdminSession
+     * @var AdminSessionManagement
      */
-    public $adminSession;
+    private $adminSession;
 
     /**
-     * AddIdAfterSave constructor.
+     * AddCustomerIdAfterSaveToAdminSession constructor.
      *
-     * @param Context $context
-     * @param AdminSession $adminSession
+     * @param AdminSessionManagement $adminSession
      */
     public function __construct(
-        Context $context,
-        AdminSession $adminSession
+        AdminSessionManagement $adminSession
     ) {
-        $this->_layout = $context->getLayout();
         $this->adminSession = $adminSession;
     }
 
@@ -50,7 +48,7 @@ class AddIdAfterSave implements ObserverInterface
     {
         $event = $observer->getEvent();
         $customer = $event->getCustomer();
-        $id = (int)$customer->getId();
-        $this->adminSession->setCustomerIdToAdminSessionFromSave($id);
+        $customerId = (int)$customer->getId();
+        $this->adminSession->setCustomerIdToAdminSession($customerId);
     }
 }

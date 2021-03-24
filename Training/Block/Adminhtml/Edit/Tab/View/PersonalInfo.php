@@ -12,7 +12,7 @@ namespace Codifi\Training\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
-use Codifi\Training\Model\AdminSession;
+use Codifi\Training\Model\AdminSessionManagement;
 
 /**
  * Class PersonalInfo
@@ -23,20 +23,20 @@ class PersonalInfo extends Template
     /**
      * Admin session
      *
-     * @var AdminSession
+     * @var AdminSessionManagement
      */
-    public $adminSession;
+    private $adminSession;
 
     /**
      * PersonalInfo constructor.
      *
      * @param Context $context
-     * @param AdminSession $adminSession
+     * @param AdminSessionManagement $adminSession
      * @param array $data
      */
     public function __construct(
         Context $context,
-        AdminSession $adminSession,
+        AdminSessionManagement $adminSession,
         array $data = []
     ) {
         $this->adminSession = $adminSession;
@@ -48,9 +48,9 @@ class PersonalInfo extends Template
      *
      * @return bool
      */
-    public function check() : bool
+    public function checkForOneTimeDemoMessage() : bool
     {
-        return $this->adminSession->lastCheck();
+        return $this->adminSession->checkForOneTimeDemoMessage();
     }
 
     /**
