@@ -10,14 +10,13 @@ declare(strict_types=1);
 
 namespace Codifi\Training\Model;
 
-use Codifi\Training\Model\ConfigProvider;
 use Magento\Customer\Model\Session;
 
 /**
  * Class CustomerSession
  * @package Codifi\Training\Model
  */
-class CustomerSession
+class CustomerSessionManagement
 {
     /**
      * Session
@@ -48,11 +47,13 @@ class CustomerSession
     }
 
     /**
+     * Get customer attrubute credit hold.
+     *
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getCustomerAttr(): bool
+    public function getCustomerAttrCreditHold(): bool
     {
         $customerData = $this->session->getCustomerData();
         $customerAttribute = $customerData->getCustomAttribute($this->configProvider::ATTRIBUTE_CODE_CREDIT_HOLD);
@@ -86,23 +87,13 @@ class CustomerSession
     }
 
     /**
-     * Check
+     * Check for one time demo message.
      *
      * @return bool
      */
-    public function check(): bool
+    public function checkForOneTimeDemoMessage(): bool
     {
-        if (
-            $this->configProvider->isOptionCreditHoldEnable() &&
-            $this->getCustomerAttr() &&
-            !$this->getFlag()
-        ) {
-            $check = true;
-        } else {
-            $check = false;
-        }
-
-        return $check;
+        return $this->getCustomerAttrCreditHold() &&  $this->configProvider->isOptionCreditHoldEnable() && !$this->getFlag();
     }
 
     /**

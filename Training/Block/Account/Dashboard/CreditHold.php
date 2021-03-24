@@ -13,7 +13,7 @@ namespace Codifi\Training\Block\Account\Dashboard;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Codifi\Training\Model\ConfigProvider;
-use Codifi\Training\Model\CustomerSession;
+use Codifi\Training\Model\CustomerSessionManagement;
 
 /**
  * Class CreditHold
@@ -24,7 +24,7 @@ class CreditHold extends Template
     /**
      * Customer session
      *
-     * @var CustomerSession
+     * @var CustomerSessionManagement
      */
     private $customerSession;
 
@@ -43,7 +43,7 @@ class CreditHold extends Template
      */
     public function __construct(
         Context $context,
-        CustomerSession $customerSession,
+        CustomerSessionManagement $customerSession,
         ConfigProvider $configProvider,
         array $data = []
     ) {
@@ -54,13 +54,13 @@ class CreditHold extends Template
     }
 
     /**
-     * Check function
+     * Check for one time demo message
      *
      * @return bool
      */
-    public function check() : bool
+    public function checkForOneTimeDemoMessage() : bool
     {
-        return $this->customerSession->check();
+        return $this->customerSession->checkForOneTimeDemoMessage();
     }
 
     /**
