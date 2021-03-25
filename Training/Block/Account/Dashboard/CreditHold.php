@@ -78,6 +78,6 @@ class CreditHold extends Template
      */
     public function getSaveUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/note/save', ['note' => $this->getRequest()->getParam('note')]);
+        return $this->_urlBuilder->getUrl('customer/note/save');
     }
 }

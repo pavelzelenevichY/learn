@@ -24,13 +24,14 @@
 
             $('.confirmation-modal-content').confirm({
                 actions: {
-                    // always: aj();
                     always: function() {
                         $.ajax({
                             type: "POST",
-                            url: '<?= $block->escapeJs($block->escapeUrl($block->getSaveUrl())) ?>',
+                            url: '<?= $block->getSaveUrl() ?>',
                             data: {'note': 'Customer is notified about credit hold.'},
-                            success: function(data){}
+                            success: function(data){
+                                console.log(data)
+                            }
                         });
                     }
                 },
