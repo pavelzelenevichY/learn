@@ -73,34 +73,39 @@ class Save extends Action
     }
 
     /**
-     * Execute
-     *
-     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface|string
+     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
+     * @throws \Exception
      */
     public function execute()
     {
-        $data = $this->getRequest()->getParam('note');
+        $note = $this->getRequest()->getParam('note');
+        $customerId = $this->getRequest()->getParam('customer_id');
 
-        $customerNoteModelFactory = $this->customerNoteFactory->create();
+        $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if (!$data) {
+        if ($note) {
+            try {
+                $customerNoteModel->setData([
+                    'customer_id' => $customerId,
+                    'note' => $note
+                ]);
+                $this->customerNoteResource->save($customerNoteModel);
+                $response =  $resultJson->setData([
+                    'success' => true,
+                    'message' => ''
+                ]);
+            } catch (LocalizedException $exception) {
+                $response =  $resultJson->setData([
+                    'success' => false,
+                    'message' =>  $exception->getMessage()
+                ]);
+            }
+        } else {
             $response =  $resultJson->setData([
                 'success' => false,
                 'message' => 'Note text is missed.'
             ]);
-        } else {
-            $customerNoteModelFactory->setData($data);
-            $response =  $resultJson->setData([
-                'success' => true,
-                'message' => ''
-            ]);
-        }
-
-        try {
-            $customerNoteModelFactory->save($data);
-        } catch (LocalizedException $exception) {
-            $response = $exception->getMessage();
         }
 
         return $response;
