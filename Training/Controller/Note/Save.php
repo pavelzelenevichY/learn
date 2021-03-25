@@ -11,13 +11,11 @@ namespace Codifi\Training\Controller\Note;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
+use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResource;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Controller\Result\Json;
-use Magento\Framework\Controller\ResultInterface;
-use Exception;
 
 /**
  * Class Save
@@ -26,7 +24,14 @@ use Exception;
 class Save extends Action
 {
     /**
-     * Customer note factory.
+     * Customer note model.
+     *
+     * @var CustomerNote
+     */
+    private $customerNote;
+
+    /**
+     * Customer note factory
      *
      * @var CustomerNoteFactory
      */
@@ -40,7 +45,7 @@ class Save extends Action
     private $customerNoteResource;
 
     /**
-     * Json factory.
+     * Json factory
      *
      * @var JsonFactory
      */
@@ -50,66 +55,52 @@ class Save extends Action
      * Save constructor.
      *
      * @param Context $context
-     * @param JsonFactory $jsonFactory
-     * @param CustomerNoteFactory $customerNoteFactory
+     * @param CustomerNote $customerNote
      * @param CustomerNoteResource $customerNoteResource
      */
     public function __construct(
         Context $context,
         JsonFactory $jsonFactory,
         CustomerNoteFactory $customerNoteFactory,
+        CustomerNote $customerNote,
         CustomerNoteResource $customerNoteResource
     ) {
         parent::__construct($context);
         $this->jsonFactory = $jsonFactory;
         $this->customerNoteFactory = $customerNoteFactory;
+        $this->customerNote = $customerNote;
         $this->customerNoteResource = $customerNoteResource;
     }
 
     /**
-     * Execute function.
-     *
-     * @return ResponseInterface|Json|ResultInterface
-     * @throws Exception
+     * Execute
+     * @Route("customer/Save", name="save")
+     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface|string
      */
     public function execute()
     {
-        $note = $this->getRequest()->getParam('note');
-        $customerId = $this->getRequest()->getParam('customer_id');
+        $data = $this->getRequest()->getParam('note');
 
-        $customerNoteModel = $this->customerNoteFactory->create();
+        $customerNoteModelFactory = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if ($customerId) {
-            if ($note) {
-                try {
-                    $customerNoteModel->setData([
-                        'customer_id' => $customerId,
-                        'note' => $note,
-                        'autocomplete' => 1
-                    ]);
-                    $this->customerNoteResource->save($customerNoteModel);
-                    $response = $resultJson->setData([
-                        'success' => true,
-                        'message' => ''
-                    ]);
-                } catch (LocalizedException $exception) {
-                    $response = $resultJson->setData([
-                        'success' => false,
-                        'message' => $exception->getMessage()
-                    ]);
-                }
-            } else {
-                $response = $resultJson->setData([
-                    'success' => false,
-                    'message' => __('Note text is missed.')
-                ]);
-            }
-        } else {
-            $response = $resultJson->setData([
+        if (!$data) {
+            $response =  $resultJson->setData([
                 'success' => false,
-                'message' => __('Customer id is missed.')
+                'message' => 'Note text is missed.'
             ]);
+        } else {
+            $customerNoteModelFactory->setData($data);
+            $response =  $resultJson->setData([
+                'success' => true,
+                'message' => ''
+            ]);
+        }
+
+        try {
+            $customerNoteModelFactory->save($data);
+        } catch (LocalizedException $exception) {
+            $response = $exception->getMessage();
         }
 
         return $response;
