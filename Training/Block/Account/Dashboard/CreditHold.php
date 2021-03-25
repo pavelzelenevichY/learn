@@ -74,6 +74,16 @@ class CreditHold extends Template
     }
 
     /**
+     * Get current customer id.
+     *
+     * @return int
+     */
+    public function getCustomerId() : int
+    {
+        return (int)$this->customerSession->getCustomerId();
+    }
+
+    /**
      * @return string|void
      */
     public function getSaveUrl()
