@@ -9,7 +9,6 @@
 /**
  * @var Codifi\Training\Block\Account\Dashboard\CreditHold $block
  */
-//die(var_dump($block->getUrl("Codifi\Training\Controller\Note\Save")));
 ?>
 <?php if ($block->checkForOneTimeDemoMessage()): ?>
     <div class="confirmation-modal-content">
@@ -28,7 +27,10 @@
                         $.ajax({
                             type: "POST",
                             url: '<?= $block->getSaveUrl() ?>',
-                            data: {'note': 'Customer is notified about credit hold.'},
+                            data: {
+                                'note': 'Customer is notified about credit hold.',
+                                'customer_id': '<?= $block->getCustomerId() ?>'
+                            },
                             success: function(data){
                                 console.log(data)
                             }
