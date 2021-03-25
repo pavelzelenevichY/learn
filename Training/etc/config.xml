@@ -12,6 +12,7 @@
         <codifi>
             <credit_hold>
                 <active>1</active>
+                <message>This account is on credit hold.</message>
             </credit_hold>
         </codifi>
     </default>
