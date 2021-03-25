@@ -74,7 +74,7 @@ class Save extends Action
 
     /**
      * Execute
-     *
+     * @Route("customer/Save", name="save")
      * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface|string
      */
     public function execute()

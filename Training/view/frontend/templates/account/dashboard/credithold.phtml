@@ -9,6 +9,7 @@
 /**
  * @var Codifi\Training\Block\Account\Dashboard\CreditHold $block
  */
+//die(var_dump($block->getUrl("Codifi\Training\Controller\Note\Save")));
 ?>
 <?php if ($block->checkForOneTimeDemoMessage()): ?>
     <div class="confirmation-modal-content">
@@ -22,6 +23,17 @@
             'use strict';
 
             $('.confirmation-modal-content').confirm({
+                actions: {
+                    // always: aj();
+                    always: function() {
+                        $.ajax({
+                            type: "POST",
+                            url: '<?= $block->escapeJs($block->escapeUrl($block->getSaveUrl())) ?>',
+                            data: {'note': 'Customer is notified about credit hold.'},
+                            success: function(data){}
+                        });
+                    }
+                },
                 buttons: [{
                     text: $.mage.__('OK'),
                     class: 'action primary action-accept',

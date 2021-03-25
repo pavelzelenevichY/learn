@@ -72,4 +72,12 @@ class CreditHold extends Template
     {
         return $this->customerSession->getMessageAndCallSetFlag();
     }
+
+    /**
+     * @return string|void
+     */
+    public function getSaveUrl()
+    {
+        return $this->_urlBuilder->getUrl('customer/note/save', ['note' => $this->getRequest()->getParam('note')]);
+    }
 }
