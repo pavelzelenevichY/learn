@@ -73,35 +73,54 @@ class Save extends Action
     }
 
     /**
-     * Execute
-     * @Route("customer/Save", name="save")
-     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface|string
+     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
+     * @throws \Exception
      */
     public function execute()
     {
+//        die('adsdsadsa');
+
+        $response = [
+            'success' => false,
+            'message' => 'Note text is missed.'
+        ];
+//        die(var_dump(1));
         $data = $this->getRequest()->getParam('note');
 
-        $customerNoteModelFactory = $this->customerNoteFactory->create();
+        $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if (!$data) {
-            $response =  $resultJson->setData([
-                'success' => false,
-                'message' => 'Note text is missed.'
-            ]);
-        } else {
-            $customerNoteModelFactory->setData($data);
+        if ($data) {
+            $customerNoteModel->setData($data);
             $response =  $resultJson->setData([
                 'success' => true,
                 'message' => ''
             ]);
+//            die(var_dump(2));
+            try {
+                $customerNoteModel->setData([
+                    'customer_id' => 1,
+                    'note' => 'TEXT'
+                ]);
+//                die(var_dump(2));
+                $this->customerNoteResource->save($customerNoteModel);
+//                die(var_dump(3));
+            } catch (LocalizedException $exception) {
+                $response =  $resultJson->setData([
+                    'success' => true,
+                    'message' =>  $exception->getMessage()
+                ]);
+//                die(var_dump(4));
+            }
+        } else {
+            $response =  $resultJson->setData([
+                'success' => false,
+                'message' => 'Note text is missed.'
+            ]);
+//            die(var_dump(5));
         }
 
-        try {
-            $customerNoteModelFactory->save($data);
-        } catch (LocalizedException $exception) {
-            $response = $exception->getMessage();
-        }
+
 
         return $response;
     }
