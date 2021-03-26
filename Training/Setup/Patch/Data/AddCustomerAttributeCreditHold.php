@@ -68,7 +68,7 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface
     private $attributeResourceModel;
 
     /**
-     * AddCustomerAttributeCereditHold Constructor
+     * AddCustomerAttributeCreditHold constructor.
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param CustomerSetupFactory $customerSetupFactory
