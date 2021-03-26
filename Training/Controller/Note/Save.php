@@ -11,11 +11,12 @@ namespace Codifi\Training\Controller\Note;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
-use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResource;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * Class Save
@@ -23,13 +24,6 @@ use Magento\Framework\Exception\LocalizedException;
  */
 class Save extends Action
 {
-    /**
-     * Customer note model.
-     *
-     * @var CustomerNote
-     */
-    private $customerNote;
-
     /**
      * Customer note factory
      *
@@ -55,25 +49,26 @@ class Save extends Action
      * Save constructor.
      *
      * @param Context $context
-     * @param CustomerNote $customerNote
+     * @param JsonFactory $jsonFactory
+     * @param CustomerNoteFactory $customerNoteFactory
      * @param CustomerNoteResource $customerNoteResource
      */
     public function __construct(
         Context $context,
         JsonFactory $jsonFactory,
         CustomerNoteFactory $customerNoteFactory,
-        CustomerNote $customerNote,
         CustomerNoteResource $customerNoteResource
     ) {
         parent::__construct($context);
         $this->jsonFactory = $jsonFactory;
         $this->customerNoteFactory = $customerNoteFactory;
-        $this->customerNote = $customerNote;
         $this->customerNoteResource = $customerNoteResource;
     }
 
     /**
-     * @return ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
+     * Execute
+     *
+     * @return ResponseInterface|Json|ResultInterface
      * @throws \Exception
      */
     public function execute()
@@ -88,7 +83,8 @@ class Save extends Action
             try {
                 $customerNoteModel->setData([
                     'customer_id' => $customerId,
-                    'note' => $note
+                    'note' => $note,
+                    'autocomplete' => 1
                 ]);
                 $this->customerNoteResource->save($customerNoteModel);
                 $response =  $resultJson->setData([
@@ -104,7 +100,7 @@ class Save extends Action
         } else {
             $response =  $resultJson->setData([
                 'success' => false,
-                'message' => 'Note text is missed.'
+                'message' => __('Note text is missed.')
             ]);
         }
 
