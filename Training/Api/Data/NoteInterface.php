@@ -28,16 +28,41 @@ interface NoteInterface
     /**
      * @return string
      */
-    public function getNote();
+    public function getNoteText();
 
     /**
      * @param string $noteText
      * @return void
      */
-    public function setNote($noteText);
+    public function setNoteText($noteText);
 
     /**
      * @return int
      */
     public function getAutocomplete();
+
+    /**
+     * @return int
+     */
+    public function getCustomerId();
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt();
+
+    /**
+     * @return string
+     */
+    public function getCreatedBy();
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt();
+
+    /**
+     * @return string
+     */
+    public function getUpdatedBy();
 }

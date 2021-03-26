@@ -9,6 +9,7 @@
 namespace Codifi\Training\Api;
 
 use Codifi\Training\Api\Data\NoteInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Interface NoteRepositoryInterface
@@ -33,4 +34,15 @@ interface NoteRepositoryInterface
      * @return void
      */
     public function delete(NoteInterface $note);
+
+    /**
+     * @param int $noteId
+     * @return void
+     */
+    public function deleteById($noteId);
+
+    /**
+     * @return mixed
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria);
 }
