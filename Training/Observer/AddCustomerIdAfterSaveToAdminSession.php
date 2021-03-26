@@ -21,7 +21,7 @@ use Codifi\Training\Model\AdminSessionManagement;
 class AddCustomerIdAfterSaveToAdminSession implements ObserverInterface
 {
     /**
-     * Admin session
+     * Admin session.
      *
      * @var AdminSessionManagement
      */
@@ -39,7 +39,7 @@ class AddCustomerIdAfterSaveToAdminSession implements ObserverInterface
     }
 
     /**
-     * Execute function
+     * Execute function.
      *
      * @param \Magento\Framework\Event\Observer $observer
      * @return void

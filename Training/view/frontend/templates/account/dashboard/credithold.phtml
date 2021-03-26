@@ -28,7 +28,7 @@
                             type: "POST",
                             url: '<?= $block->escapeJs($block->getSaveUrl()) ?>',
                             data: {
-                                'note': 'Customer is notified about credit hold.',
+                                'note': $.mage.__('Customer is notified about credit hold.'),
                                 'customer_id': '<?= $block->escapeJs($block->getCustomerId()) ?>'
                             },
                             success: function(data){}

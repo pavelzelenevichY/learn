@@ -25,21 +25,21 @@ class AdminSessionManagement
     const ADMIN_SESSION_ATTRIBUTE_CUSTOMERS_ID = 'customers_id';
 
     /**
-     * Auth session
+     * Auth session.
      *
      * @var Session
      */
     private $authSession;
 
     /**
-     * Backend session
+     * Backend session.
      *
      * @var BackendSession
      */
     private $backendSession;
 
     /**
-     * Config provider
+     * Config provider.
      *
      * @var ConfigProvider
      */
@@ -83,7 +83,7 @@ class AdminSessionManagement
     {
         $customerData = $this->backendSession->getCustomerData();
 
-        return $customerData['account']['id'] ?? '';
+        return $customerData['account']['id'] ?? 0;
     }
 
     /**
@@ -149,7 +149,7 @@ class AdminSessionManagement
     }
 
     /**
-     * Get message and set customer id to admin session
+     * Get message and set customer id to admin session.
      *
      * @return string
      */

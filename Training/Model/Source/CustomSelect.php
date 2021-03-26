@@ -17,7 +17,7 @@ use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 class CustomSelect extends AbstractSource
 {
     /**
-     * Get all options
+     * Get all options.
      *
      * @return array
      */
