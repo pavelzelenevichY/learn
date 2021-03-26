@@ -39,6 +39,8 @@ class CreditHold extends Template
      * CreditHold constructor.
      *
      * @param Context $context
+     * @param CustomerSessionManagement $customerSession
+     * @param ConfigProvider $configProvider
      * @param array $data
      */
     public function __construct(
@@ -84,9 +86,11 @@ class CreditHold extends Template
     }
 
     /**
-     * @return string|void
+     * Get url save controller
+     *
+     * @return string
      */
-    public function getSaveUrl()
+    public function getSaveUrl() : string
     {
         return $this->_urlBuilder->getUrl('customer/note/save');
     }

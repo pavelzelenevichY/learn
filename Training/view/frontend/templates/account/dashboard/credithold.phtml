@@ -26,14 +26,12 @@
                     always: function() {
                         $.ajax({
                             type: "POST",
-                            url: '<?= $block->getSaveUrl() ?>',
+                            url: '<?= $block->escapeJs($block->getSaveUrl()) ?>',
                             data: {
                                 'note': 'Customer is notified about credit hold.',
-                                'customer_id': '<?= $block->getCustomerId() ?>'
+                                'customer_id': '<?= $block->escapeJs($block->getCustomerId()) ?>'
                             },
-                            success: function(data){
-                                console.log(data)
-                            }
+                            success: function(data){}
                         });
                     }
                 },
