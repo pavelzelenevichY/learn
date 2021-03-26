@@ -21,14 +21,14 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class CustomerSessionManagement
 {
     /**
-     * Session
+     * Customer session.
      *
      * @var Session
      */
     private $session;
 
     /**
-     * Config provider
+     * Config provider.
      *
      * @var ConfigProvider
      */
@@ -69,7 +69,7 @@ class CustomerSessionManagement
     }
 
     /**
-     * Get flag
+     * Get flag.
      *
      * @return bool
      */
@@ -79,7 +79,7 @@ class CustomerSessionManagement
     }
 
     /**
-     * Set flag value true
+     * Set flag value true.
      *
      * @return void
      */
@@ -99,7 +99,7 @@ class CustomerSessionManagement
     }
 
     /**
-     * Get message and call set flag function
+     * Get message and call set flag function.
      *
      * @return string
      */
