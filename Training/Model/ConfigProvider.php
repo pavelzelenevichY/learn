@@ -76,7 +76,7 @@ class ConfigProvider
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */

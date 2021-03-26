@@ -25,7 +25,7 @@ use Magento\Framework\Controller\ResultInterface;
 class Save extends Action
 {
     /**
-     * Customer note factory
+     * Customer note factory.
      *
      * @var CustomerNoteFactory
      */
@@ -39,7 +39,7 @@ class Save extends Action
     private $customerNoteResource;
 
     /**
-     * Json factory
+     * Json factory.
      *
      * @var JsonFactory
      */
@@ -66,7 +66,7 @@ class Save extends Action
     }
 
     /**
-     * Execute
+     * Execute function.
      *
      * @return ResponseInterface|Json|ResultInterface
      * @throws \Exception
