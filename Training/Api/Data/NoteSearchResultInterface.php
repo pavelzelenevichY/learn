@@ -10,6 +10,10 @@ namespace Codifi\Training\Api\Data;
 
 use Magento\Framework\Api\SearchResultsInterface;
 
+/**
+ * Interface NoteSearchResultInterface
+ * @package Codifi\Training\Api\Data
+ */
 interface NoteSearchResultInterface extends SearchResultsInterface
 {
     /**

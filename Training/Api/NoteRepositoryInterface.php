@@ -10,6 +10,8 @@ namespace Codifi\Training\Api;
 
 use Codifi\Training\Api\Data\NoteInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Codifi\Training\Api\Data\NoteSearchResultInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 /**
  * Interface NoteRepositoryInterface
@@ -18,30 +20,42 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 interface NoteRepositoryInterface
 {
     /**
+     * Get note by id.
+     *
      * @param int $noteId
      * @return NoteInterface
      */
-    public function getById($noteId);
+    public function getById(int $noteId);
 
     /**
+     * Save note.
+     *
      * @param NoteInterface $note
      * @return NoteInterface
      */
     public function save(NoteInterface $note);
 
     /**
+     * Delete note.
+     *
      * @param NoteInterface $note
      * @return void
      */
     public function delete(NoteInterface $note);
 
     /**
+     * Delete note by id.
+     *
      * @param int $noteId
      * @return void
      */
-    public function deleteById($noteId);
+    public function deleteById(int $noteId);
 
     /**
+     * Get list.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @param AbstractDb $collection
      * @return mixed
      */
     public function getList(SearchCriteriaInterface $searchCriteria);

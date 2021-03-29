@@ -21,46 +21,6 @@ use Magento\Tests\NamingConvention\true\string;
 class Note extends AbstractExtensibleModel implements NoteInterface
 {
     /**
-     * Note id.
-     */
-    const NOTE_ID = 'note_id';
-
-    /**
-     * Customer id.
-     */
-    const CUSTOMER_ID = 'customer_id';
-
-    /**
-     * Created at.
-     */
-    const CREATED_AT = 'created_at';
-
-    /**
-     * Created by.
-     */
-    const CREATED_BY = 'created_by';
-
-    /**
-     * Note text.
-     */
-    const NOTE = 'note';
-
-    /**
-     * Updated at.
-     */
-    const UPDATED_AT = 'updated_at';
-
-    /**
-     * Updated by.
-     */
-    const UPDATED_BY = 'updated_by';
-
-    /**
-     * Autocomplete.
-     */
-    const AUTOCOMPLETE = 'autocomplete';
-
-    /**
      * Note construct.
      */
     protected function _construct()
@@ -121,6 +81,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     }
 
     /**
+     * Set autocomplete value.
+     *
+     * @param $autocomplete
+     * @return void
+     */
+    public function setAutocomplete($autocomplete) : void
+    {
+        $this->setData([self::AUTOCOMPLETE => $autocomplete]);
+    }
+
+    /**
      * Get customer id.
      *
      * @return int
@@ -128,6 +99,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     public function getCustomerId() : int
     {
         return $this->_getData(self::CUSTOMER_ID);
+    }
+
+    /**
+     * Set customer id.
+     *
+     * @param $customerId
+     * @return void
+     */
+    public function setCustomerId($customerId) : void
+    {
+        $this->setData([self::CUSTOMER_ID => $customerId]);
     }
 
     /**
