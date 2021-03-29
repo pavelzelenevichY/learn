@@ -75,31 +75,36 @@ class Save extends Action
     public function execute()
     {
         $note = $this->getRequest()->getParam('note');
+        $customerId = $this->getRequest()->getParam('customer_id');
 
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if ($note) {
+        if (!$customerId) {
+            $response = $resultJson->setData([
+                'success' => false,
+                'message' => __('Customer id is missed.')
+            ]);
+        } elseif ($note) {
             try {
-                $customerId = $this->getRequest()->getParam('customer_id');
                 $customerNoteModel->setData([
                     'customer_id' => $customerId,
                     'note' => $note,
                     'autocomplete' => 1
                 ]);
                 $this->customerNoteResource->save($customerNoteModel);
-                $response =  $resultJson->setData([
+                $response = $resultJson->setData([
                     'success' => true,
                     'message' => ''
                 ]);
             } catch (LocalizedException $exception) {
-                $response =  $resultJson->setData([
+                $response = $resultJson->setData([
                     'success' => false,
                     'message' =>  $exception->getMessage()
                 ]);
             }
         } else {
-            $response =  $resultJson->setData([
+            $response = $resultJson->setData([
                 'success' => false,
                 'message' => __('Note text is missed.')
             ]);
