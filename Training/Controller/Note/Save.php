@@ -17,6 +17,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\ResultInterface;
+use Exception;
 
 /**
  * Class Save
@@ -69,18 +70,18 @@ class Save extends Action
      * Execute function.
      *
      * @return ResponseInterface|Json|ResultInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
         $note = $this->getRequest()->getParam('note');
-        $customerId = $this->getRequest()->getParam('customer_id');
 
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
         if ($note) {
             try {
+                $customerId = $this->getRequest()->getParam('customer_id');
                 $customerNoteModel->setData([
                     'customer_id' => $customerId,
                     'note' => $note,
