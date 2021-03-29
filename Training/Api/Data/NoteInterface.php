@@ -122,11 +122,27 @@ interface NoteInterface
     public function getCreatedAt();
 
     /**
+     * Set created at.
+     *
+     * @param string $createdAt
+     * @return void
+     */
+    public function setCreatedAt(string $createdAt);
+
+    /**
      * Get created by.
      *
      * @return string
      */
     public function getCreatedBy();
+
+    /**
+     * Set created by.
+     *
+     * @param string $createdBy
+     * @return void
+     */
+    public function setCreatedBy(string $createdBy);
 
     /**
      * Get updated at.
@@ -136,9 +152,25 @@ interface NoteInterface
     public function getUpdatedAt();
 
     /**
+     * Set updated at.
+     *
+     * @param string $updatedAt
+     * @return void
+     */
+    public function setUpdatedAt(string $updatedAt);
+
+    /**
      * Get updated by.
      *
      * @return string
      */
     public function getUpdatedBy();
+
+    /**
+     * Set updated by.
+     *
+     * @param string $updatedBy
+     * @return void
+     */
+    public function setUpdatedBy(string $updatedBy);
 }
