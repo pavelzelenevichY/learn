@@ -65,7 +65,6 @@ interface NoteInterface
      * Set note id.
      *
      * @param int $noteId
-     * @return void
      */
     public function setNoteId(int $noteId);
 
@@ -80,7 +79,6 @@ interface NoteInterface
      * Set note text.
      *
      * @param string $noteText
-     * @return void
      */
     public function setNoteText(string $noteText);
 
@@ -95,7 +93,6 @@ interface NoteInterface
      * Set autocomplete
      *
      * @param $autocomplete
-     * @return void
      */
     public function setAutocomplete(int $autocomplete);
 
@@ -110,7 +107,6 @@ interface NoteInterface
      * Set customer id.
      *
      * @param $customerId
-     * @return void
      */
     public function setCustomerId(int $customerId);
 
@@ -125,24 +121,22 @@ interface NoteInterface
      * Set created at.
      *
      * @param string $createdAt
-     * @return void
      */
     public function setCreatedAt(string $createdAt);
 
     /**
      * Get created by.
      *
-     * @return string
+     * @return int
      */
     public function getCreatedBy();
 
     /**
      * Set created by.
      *
-     * @param string $createdBy
-     * @return void
+     * @param int $createdBy
      */
-    public function setCreatedBy(string $createdBy);
+    public function setCreatedBy(int $createdBy);
 
     /**
      * Get updated at.
@@ -155,22 +149,20 @@ interface NoteInterface
      * Set updated at.
      *
      * @param string $updatedAt
-     * @return void
      */
     public function setUpdatedAt(string $updatedAt);
 
     /**
      * Get updated by.
      *
-     * @return string
+     * @return int
      */
     public function getUpdatedBy();
 
     /**
      * Set updated by.
      *
-     * @param string $updatedBy
-     * @return void
+     * @param int $updatedBy
      */
-    public function setUpdatedBy(string $updatedBy);
+    public function setUpdatedBy(int $updatedBy);
 }

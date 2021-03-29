@@ -63,7 +63,7 @@ class NoteRepository implements NoteRepositoryInterface
      * NoteRepository constructor.
      *
      * @param NoteInterface $note
-     * @param \Codifi\Training\Model\CustomerNoteFactory $noteFactory
+     * @param CustomerNoteFactory $noteFactory
      * @param CustomerNoteResourse $noteResourse
      * @param NoteSearchResultInterfaceFactory $searchResultFactory
      * @param CollectionProcessorInterface $collectionProcessor
@@ -89,7 +89,7 @@ class NoteRepository implements NoteRepositoryInterface
      * @return CustomerNote
      * @throws NoSuchEntityException
      */
-    public function getById($id) : CustomerNote
+    public function getById($id): CustomerNote
     {
         $noteModel = $this->noteFactory->create();
         $this->noteResourse->load($noteModel, $id);
@@ -118,6 +118,7 @@ class NoteRepository implements NoteRepositoryInterface
      *
      * @param NoteInterface $note
      * @throws AlreadyExistsException
+     * @return void
      */
     public function delete(NoteInterface $note): void
     {
@@ -131,8 +132,9 @@ class NoteRepository implements NoteRepositoryInterface
      *
      * @param int $noteId
      * @throws NoSuchEntityException
+     * @return void
      */
-    public function deleteById($noteId) : void
+    public function deleteById($noteId): void
     {
         $noteModel = $this->noteFactory->create();
         $note = $this->noteResourse->load($noteModel, $noteId);
@@ -149,7 +151,7 @@ class NoteRepository implements NoteRepositoryInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @return NoteSearchResultInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria) : NoteSearchResultInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): NoteSearchResultInterface
     {
         $searchResult = $this->searchResultFactory->create();
         $this->collectionProcessor->process($searchCriteria, $searchResult);

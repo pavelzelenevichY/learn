@@ -9,9 +9,8 @@
 namespace Codifi\Training\Api;
 
 use Codifi\Training\Api\Data\NoteInterface;
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Codifi\Training\Api\Data\NoteSearchResultInterface;
-use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Interface NoteRepositoryInterface
@@ -55,8 +54,7 @@ interface NoteRepositoryInterface
      * Get list.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @param AbstractDb $collection
-     * @return mixed
+     * @return NoteSearchResultInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 }

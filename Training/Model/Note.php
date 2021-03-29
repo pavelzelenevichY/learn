@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Codifi\Training\Model;
 
 use Codifi\Training\Api\Data\NoteInterface;
+use Codifi\Training\Model\ResourceModel\CustomerNote;
 use Magento\Framework\Model\AbstractExtensibleModel;
-use Magento\Tests\NamingConvention\true\string;
 
 /**
  * Class Note
@@ -25,7 +25,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     protected function _construct()
     {
-        $this->_init(ResourceModel\CustomerNote::class);
+        $this->_init(CustomerNote::class);
     }
 
     /**
@@ -33,7 +33,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return int
      */
-    public function getNoteId() : int
+    public function getNoteId(): int
     {
         return $this->_getData(self::NOTE_ID);
     }
@@ -44,7 +44,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * @param int $noteId
      * @return void
      */
-    public function setNoteId($noteId) : void
+    public function setNoteId($noteId): void
     {
         $this->setData([self::NOTE_ID => $noteId]);
     }
@@ -54,7 +54,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return string
      */
-    public function getNoteText() : string
+    public function getNoteText(): string
     {
         return $this->_getData(self::NOTE);
     }
@@ -65,7 +65,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * @param string $noteText
      * @return void
      */
-    public function setNoteText($noteText) : void
+    public function setNoteText($noteText): void
     {
         $this->setData([self::NOTE => $noteText]);
     }
@@ -75,7 +75,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return int
      */
-    public function getAutocomplete() : int
+    public function getAutocomplete(): int
     {
         return $this->_getData(self::AUTOCOMPLETE);
     }
@@ -84,9 +84,8 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * Set autocomplete value.
      *
      * @param $autocomplete
-     * @return void
      */
-    public function setAutocomplete($autocomplete) : void
+    public function setAutocomplete($autocomplete)
     {
         $this->setData([self::AUTOCOMPLETE => $autocomplete]);
     }
@@ -96,7 +95,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return int
      */
-    public function getCustomerId() : int
+    public function getCustomerId(): int
     {
         return $this->_getData(self::CUSTOMER_ID);
     }
@@ -105,9 +104,8 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * Set customer id.
      *
      * @param $customerId
-     * @return void
      */
-    public function setCustomerId($customerId) : void
+    public function setCustomerId($customerId)
     {
         $this->setData([self::CUSTOMER_ID => $customerId]);
     }
@@ -117,7 +115,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return string
      */
-    public function getCreatedAt() : string
+    public function getCreatedAt(): string
     {
         return $this->_getData(self::CREATED_AT);
     }
@@ -126,9 +124,8 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * Set created at.
      *
      * @param string $createdAt
-     * @return void
      */
-    public function setCreatedAt(string $createdAt) : void
+    public function setCreatedAt(string $createdAt)
     {
         $this->setData([self::CREATED_AT => $createdAt]);
     }
@@ -136,9 +133,9 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     /**
      * Get created by.
      *
-     * @return string
+     * @return int
      */
-    public function getCreatedBy() : string
+    public function getCreatedBy(): int
     {
         return $this->_getData(self::CREATED_BY);
     }
@@ -146,10 +143,9 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     /**
      * Set created by.
      *
-     * @param string $createdBy
-     * @return void
+     * @param int $createdBy
      */
-    public function setCreatedBy(string $createdBy) : void
+    public function setCreatedBy(int $createdBy)
     {
         $this->setData([self::CREATED_BY => $createdBy]);
     }
@@ -159,7 +155,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      *
      * @return string
      */
-    public function getUpdatedAt() : string
+    public function getUpdatedAt(): string
     {
         return $this->_getData(self::UPDATED_AT);
     }
@@ -168,9 +164,8 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      * Set updated at.
      *
      * @param string $updatedAt
-     * @return void
      */
-    public function setUpdatedAt(string $updatedAt) : void
+    public function setUpdatedAt(string $updatedAt)
     {
         $this->setData([self::UPDATED_AT => $updatedAt]);
     }
@@ -178,9 +173,9 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     /**
      * Get updated by.
      *
-     * @return string
+     * @return int
      */
-    public function getUpdatedBy() : string
+    public function getUpdatedBy(): int
     {
         return $this->_getData(self::UPDATED_BY);
     }
@@ -188,10 +183,9 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     /**
      * Set updated by.
      *
-     * @param string $updatedBy
-     * @return void
+     * @param int $updatedBy
      */
-    public function setUpdatedBy(string $updatedBy) : void
+    public function setUpdatedBy(int $updatedBy)
     {
         $this->setData([self::UPDATED_BY => $updatedBy]);
     }
