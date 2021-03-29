@@ -123,6 +123,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     }
 
     /**
+     * Set created at.
+     *
+     * @param string $createdAt
+     * @return void
+     */
+    public function setCreatedAt(string $createdAt) : void
+    {
+        $this->setData([self::CREATED_AT => $createdAt]);
+    }
+
+    /**
      * Get created by.
      *
      * @return string
@@ -130,6 +141,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     public function getCreatedBy() : string
     {
         return $this->_getData(self::CREATED_BY);
+    }
+
+    /**
+     * Set created by.
+     *
+     * @param string $createdBy
+     * @return void
+     */
+    public function setCreatedBy(string $createdBy) : void
+    {
+        $this->setData([self::CREATED_BY => $createdBy]);
     }
 
     /**
@@ -143,6 +165,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     }
 
     /**
+     * Set updated at.
+     *
+     * @param string $updatedAt
+     * @return void
+     */
+    public function setUpdatedAt(string $updatedAt) : void
+    {
+        $this->setData([self::UPDATED_AT => $updatedAt]);
+    }
+
+    /**
      * Get updated by.
      *
      * @return string
@@ -150,6 +183,17 @@ class Note extends AbstractExtensibleModel implements NoteInterface
     public function getUpdatedBy() : string
     {
         return $this->_getData(self::UPDATED_BY);
+    }
+
+    /**
+     * Set updated by.
+     *
+     * @param string $updatedBy
+     * @return void
+     */
+    public function setUpdatedBy(string $updatedBy) : void
+    {
+        $this->setData([self::UPDATED_BY => $updatedBy]);
     }
 }
 
