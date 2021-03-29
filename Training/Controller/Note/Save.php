@@ -80,33 +80,35 @@ class Save extends Action
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if (!$customerId) {
-            $response = $resultJson->setData([
-                'success' => false,
-                'message' => __('Customer id is missed.')
-            ]);
-        } elseif ($note) {
-            try {
-                $customerNoteModel->setData([
-                    'customer_id' => $customerId,
-                    'note' => $note,
-                    'autocomplete' => 1
-                ]);
-                $this->customerNoteResource->save($customerNoteModel);
-                $response = $resultJson->setData([
-                    'success' => true,
-                    'message' => ''
-                ]);
-            } catch (LocalizedException $exception) {
+        if ($customerId) {
+            if ($note) {
+                try {
+                    $customerNoteModel->setData([
+                        'customer_id' => $customerId,
+                        'note' => $note,
+                        'autocomplete' => 1
+                    ]);
+                    $this->customerNoteResource->save($customerNoteModel);
+                    $response = $resultJson->setData([
+                        'success' => true,
+                        'message' => ''
+                    ]);
+                } catch (LocalizedException $exception) {
+                    $response = $resultJson->setData([
+                        'success' => false,
+                        'message' => $exception->getMessage()
+                    ]);
+                }
+            } else {
                 $response = $resultJson->setData([
                     'success' => false,
-                    'message' =>  $exception->getMessage()
+                    'message' => __('Note text is missed.')
                 ]);
             }
         } else {
             $response = $resultJson->setData([
                 'success' => false,
-                'message' => __('Note text is missed.')
+                'message' => __('Customer id is missed.')
             ]);
         }
 
