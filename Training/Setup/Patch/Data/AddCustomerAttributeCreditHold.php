@@ -16,6 +16,8 @@ use Magento\Customer\Model\ResourceModel\Attribute as AttributeResourceModel;
 use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 use Magento\Customer\Model\Customer;
 use Codifi\Training\Model\Source\CustomSelect;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class AddCustomerAttributeCreditHold
@@ -45,28 +47,28 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface
     private $moduleDataSetup;
 
     /**
-     * Customer Setup Factory
+     * Customer setup factory.
      *
      * @var CustomerSetupFactory
      */
     private $customerSetupFactory;
 
     /**
-     * Attribute Set Factory
+     * Attribute Set Factory.
      *
      * @var AttributeSetFactory
      */
     private $attributeSetFactory;
 
     /**
-     * Attribute Resource Model
+     * Attribute resource model.
      *
      * @var AttributeResourceModel
      */
     private $attributeResourceModel;
 
     /**
-     * AddCustomerAttributeCereditHold Constructor
+     * AddCustomerAttributeCreditHold constructor.
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param CustomerSetupFactory $customerSetupFactory
@@ -86,10 +88,10 @@ class AddCustomerAttributeCreditHold implements DataPatchInterface
     }
 
     /**
-     * Add 'Credit Hold' customer attribute
+     * Add 'Credit Hold' customer attribute.
      *
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws AlreadyExistsException
+     * @throws LocalizedException
      * @throws \Zend_Validate_Exception
      */
     public function apply() : void

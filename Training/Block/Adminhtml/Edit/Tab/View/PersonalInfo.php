@@ -21,7 +21,7 @@ use Codifi\Training\Model\AdminSessionManagement;
 class PersonalInfo extends Template
 {
     /**
-     * Admin session
+     * Admin session.
      *
      * @var AdminSessionManagement
      */
@@ -44,7 +44,7 @@ class PersonalInfo extends Template
     }
 
     /**
-     * Check parameters
+     * Check parameters.
      *
      * @return bool
      */
