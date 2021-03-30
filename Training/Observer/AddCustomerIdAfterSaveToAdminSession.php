@@ -41,7 +41,7 @@ class AddCustomerIdAfterSaveToAdminSession implements ObserverInterface
     /**
      * Execute function.
      *
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function execute(EventObserver $observer) : void
