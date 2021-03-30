@@ -12,13 +12,13 @@ namespace Codifi\Training\Model;
 
 use Codifi\Training\Api\Data\NoteInterface;
 use Codifi\Training\Model\ResourceModel\CustomerNote;
-use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Class Note
  * @package Codifi\Training\Model
  */
-class Note extends AbstractExtensibleModel implements NoteInterface
+class Note extends AbstractModel implements NoteInterface
 {
     /**
      * Note construct.
@@ -46,7 +46,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setNoteId($noteId): void
     {
-        $this->setData([self::NOTE_ID => $noteId]);
+        $this->setData(self::NOTE_ID, $noteId);
     }
 
     /**
@@ -67,7 +67,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setNoteText($noteText): void
     {
-        $this->setData([self::NOTE => $noteText]);
+        $this->setData(self::NOTE, $noteText);
     }
 
     /**
@@ -87,7 +87,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setAutocomplete($autocomplete)
     {
-        $this->setData([self::AUTOCOMPLETE => $autocomplete]);
+        $this->setData(self::AUTOCOMPLETE, $autocomplete);
     }
 
     /**
@@ -107,7 +107,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setCustomerId($customerId)
     {
-        $this->setData([self::CUSTOMER_ID => $customerId]);
+        $this->setData(self::CUSTOMER_ID, $customerId);
     }
 
     /**
@@ -127,7 +127,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setCreatedAt(string $createdAt)
     {
-        $this->setData([self::CREATED_AT => $createdAt]);
+        $this->setData(self::CREATED_AT, $createdAt);
     }
 
     /**
@@ -147,7 +147,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setCreatedBy(int $createdBy)
     {
-        $this->setData([self::CREATED_BY => $createdBy]);
+        $this->setData(self::CREATED_BY, $createdBy);
     }
 
     /**
@@ -167,7 +167,7 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setUpdatedAt(string $updatedAt)
     {
-        $this->setData([self::UPDATED_AT => $updatedAt]);
+        $this->setData(self::UPDATED_AT, $updatedAt);
     }
 
     /**
@@ -187,8 +187,6 @@ class Note extends AbstractExtensibleModel implements NoteInterface
      */
     public function setUpdatedBy(int $updatedBy)
     {
-        $this->setData([self::UPDATED_BY => $updatedBy]);
+        $this->setData(self::UPDATED_BY, $updatedBy);
     }
 }
-
-

@@ -21,6 +21,7 @@ use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Exception;
 
 /**
  * Class NoteRepository
@@ -104,27 +105,38 @@ class NoteRepository implements NoteRepositoryInterface
      * Save note.
      *
      * @param NoteInterface $note
-     * @throws AlreadyExistsException
+     * @return NoteInterface|string
      */
-    public function save(NoteInterface $note): void
+    public function save(NoteInterface $note)
     {
-        $noteModel = $this->noteFactory->create();
-        $noteModel->setData($note);
-        $this->noteResourse->save($noteModel);
+
+        try {
+            $this->noteResourse->save($note);
+            $response = $note;
+        } catch (Exception $exception) {
+            $response = $exception->getMessage();
+        }
+
+        return $response;
     }
 
     /**
      * Delete note.
      *
      * @param NoteInterface $note
-     * @throws AlreadyExistsException
-     * @return void
+     * @return NoteInterface|string
+     * @throws Exception
      */
-    public function delete(NoteInterface $note): void
+    public function delete(NoteInterface $note)
     {
-        $noteModel = $this->noteFactory->create();
-        $this->noteResourse->delete($note);
-        $this->noteResourse->save($noteModel);
+        try {
+            $this->noteResourse->delete($note);
+            $response = $note;
+        } catch (Exception $exception) {
+            $response = $exception->getMessage();
+        }
+
+        return $response;
     }
 
     /**
@@ -132,17 +144,10 @@ class NoteRepository implements NoteRepositoryInterface
      *
      * @param int $noteId
      * @throws NoSuchEntityException
-     * @return void
      */
     public function deleteById($noteId): void
     {
-        $noteModel = $this->noteFactory->create();
-        $note = $this->noteResourse->load($noteModel, $noteId);
-        if (!$noteModel->getId()) {
-            throw new NoSuchEntityException(__('Unable to find note with ID "%1"', $noteId));
-        }
-        $this->noteResourse->delete($note);
-        $this->noteResourse->save($noteModel);
+        $this->delete($this->getById($noteId));
     }
 
     /**

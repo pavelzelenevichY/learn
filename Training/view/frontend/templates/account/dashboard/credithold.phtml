@@ -10,7 +10,7 @@
  * @var Codifi\Training\Block\Account\Dashboard\CreditHold $block
  */
 ?>
-<?php if ($block->check()): ?>
+<?php if ($block->checkForOneTimeDemoMessage()): ?>
     <div class="confirmation-modal-content">
         <p><?= $block->escapeHtml($block->getMessage()) ?></p>
     </div>
