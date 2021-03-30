@@ -149,7 +149,7 @@ class AdminSessionManagement
     }
 
     /**
-     * Get message and set customer id to admin session
+     * Get message and set customer id to admin session.
      *
      * @return string
      */

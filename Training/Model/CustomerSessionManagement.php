@@ -99,7 +99,6 @@ class CustomerSessionManagement
     }
 
     /**
-     * Get message and call set flag function.
      * Get current customer id.
      *
      * @return int
