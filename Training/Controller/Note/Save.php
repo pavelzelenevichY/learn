@@ -17,6 +17,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\ResultInterface;
+use Exception;
 
 /**
  * Class Save
@@ -69,7 +70,7 @@ class Save extends Action
      * Execute function.
      *
      * @return ResponseInterface|Json|ResultInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute()
     {
@@ -79,28 +80,35 @@ class Save extends Action
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
-        if ($note) {
-            try {
-                $customerNoteModel->setData([
-                    'customer_id' => $customerId,
-                    'note' => $note,
-                    'autocomplete' => 1
-                ]);
-                $this->customerNoteResource->save($customerNoteModel);
-                $response =  $resultJson->setData([
-                    'success' => true,
-                    'message' => ''
-                ]);
-            } catch (LocalizedException $exception) {
-                $response =  $resultJson->setData([
+        if ($customerId) {
+            if ($note) {
+                try {
+                    $customerNoteModel->setData([
+                        'customer_id' => $customerId,
+                        'note' => $note,
+                        'autocomplete' => 1
+                    ]);
+                    $this->customerNoteResource->save($customerNoteModel);
+                    $response = $resultJson->setData([
+                        'success' => true,
+                        'message' => ''
+                    ]);
+                } catch (LocalizedException $exception) {
+                    $response = $resultJson->setData([
+                        'success' => false,
+                        'message' => $exception->getMessage()
+                    ]);
+                }
+            } else {
+                $response = $resultJson->setData([
                     'success' => false,
-                    'message' =>  $exception->getMessage()
+                    'message' => __('Note text is missed.')
                 ]);
             }
         } else {
-            $response =  $resultJson->setData([
+            $response = $resultJson->setData([
                 'success' => false,
-                'message' => __('Note text is missed.')
+                'message' => __('Customer id is missed.')
             ]);
         }
 

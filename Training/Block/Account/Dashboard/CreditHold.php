@@ -74,4 +74,24 @@ class CreditHold extends Template
     {
         return $this->customerSession->getMessageAndCallSetFlag();
     }
+
+    /**
+     * Get current customer id.
+     *
+     * @return int
+     */
+    public function getCustomerId() : int
+    {
+        return (int)$this->customerSession->getCustomerId();
+    }
+
+    /**
+     * Get url save controller
+     *
+     * @return string
+     */
+    public function getSaveUrl() : string
+    {
+        return $this->_urlBuilder->getUrl('customer/note/save');
+    }
 }

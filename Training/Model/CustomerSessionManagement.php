@@ -98,6 +98,17 @@ class CustomerSessionManagement
 
     /**
      * Get message and call set flag function.
+     * Get current customer id.
+     *
+     * @return int
+     */
+    public function getCustomerId() : int
+    {
+        return (int)$this->session->getCustomerId();
+    }
+
+    /**
+     * Get message and call set flag function.
      *
      * @return string
      */
