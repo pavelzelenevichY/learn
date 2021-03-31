@@ -22,14 +22,14 @@ use Codifi\Training\Model\CustomerSessionManagement;
 class CreditHold extends Template
 {
     /**
-     * Customer session
+     * Customer session.
      *
      * @var CustomerSessionManagement
      */
     private $customerSession;
 
     /**
-     * Config Provider
+     * Config Provider.
      *
      * @var ConfigProvider
      */
@@ -39,6 +39,8 @@ class CreditHold extends Template
      * CreditHold constructor.
      *
      * @param Context $context
+     * @param CustomerSessionManagement $customerSession
+     * @param ConfigProvider $configProvider
      * @param array $data
      */
     public function __construct(
@@ -54,7 +56,7 @@ class CreditHold extends Template
     }
 
     /**
-     * Check for one time demo message
+     * Check for one time demo message.
      *
      * @return bool
      */
@@ -64,12 +66,32 @@ class CreditHold extends Template
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */
     public function getMessage() : string
     {
         return $this->customerSession->getMessageAndCallSetFlag();
+    }
+
+    /**
+     * Get current customer id.
+     *
+     * @return int
+     */
+    public function getCustomerId() : int
+    {
+        return (int)$this->customerSession->getCustomerId();
+    }
+
+    /**
+     * Get url save controller
+     *
+     * @return string
+     */
+    public function getSaveUrl() : string
+    {
+        return $this->_urlBuilder->getUrl('customer/note/save');
     }
 }

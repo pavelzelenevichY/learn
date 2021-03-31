@@ -22,6 +22,19 @@
             'use strict';
 
             $('.confirmation-modal-content').confirm({
+                actions: {
+                    always: function() {
+                        $.ajax({
+                            type: "POST",
+                            url: '<?= $block->escapeJs($block->getSaveUrl()) ?>',
+                            data: {
+                                'note': $.mage.__('Customer is notified about credit hold.'),
+                                'customer_id': '<?= $block->escapeJs($block->getCustomerId()) ?>'
+                            },
+                            success: function(data){}
+                        });
+                    }
+                },
                 buttons: [{
                     text: $.mage.__('OK'),
                     class: 'action primary action-accept',

@@ -19,14 +19,14 @@ use Magento\Customer\Model\Session;
 class CustomerSessionManagement
 {
     /**
-     * Session
+     * Customer session.
      *
      * @var Session
      */
     private $session;
 
     /**
-     * Config provider
+     * Config provider.
      *
      * @var ConfigProvider
      */
@@ -67,7 +67,7 @@ class CustomerSessionManagement
     }
 
     /**
-     * Get flag
+     * Get flag.
      *
      * @return bool
      */
@@ -77,7 +77,7 @@ class CustomerSessionManagement
     }
 
     /**
-     * Set flag value true
+     * Set flag value true.
      *
      * @return void
      */
@@ -97,7 +97,17 @@ class CustomerSessionManagement
     }
 
     /**
-     * Get message and call set flag function
+     * Get current customer id.
+     *
+     * @return int
+     */
+    public function getCustomerId() : int
+    {
+        return (int)$this->session->getCustomerId();
+    }
+
+    /**
+     * Get message and call set flag function.
      *
      * @return string
      */

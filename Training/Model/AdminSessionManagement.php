@@ -22,24 +22,24 @@ class AdminSessionManagement
     /**
      * Admin session attribute customers id.
      */
-    const ADMIN_SESSION_ATTRIBUTE_CUSTOMERS_ID = 'customers_id';
+    const ADMIN_SESSION_ATTRIBUTE_CUSTOMER_IDS = 'customers_id';
 
     /**
-     * Auth session
+     * Auth session.
      *
      * @var Session
      */
     private $authSession;
 
     /**
-     * Backend session
+     * Backend session.
      *
      * @var BackendSession
      */
     private $backendSession;
 
     /**
-     * Config provider
+     * Config provider.
      *
      * @var ConfigProvider
      */
@@ -83,7 +83,7 @@ class AdminSessionManagement
     {
         $customerData = $this->backendSession->getCustomerData();
 
-        return $customerData['account']['id'] ?? '';
+        return (int)$customerData['account']['id'] ?? 0;
     }
 
     /**
@@ -98,7 +98,7 @@ class AdminSessionManagement
         }
         $customerIds = $this->getCustomerIds() ?? [];
         $customerIds[] = $customerId;
-        $this->authSession->setData(self::ADMIN_SESSION_ATTRIBUTE_CUSTOMERS_ID, $customerIds);
+        $this->authSession->setData(self::ADMIN_SESSION_ATTRIBUTE_CUSTOMER_IDS, $customerIds);
     }
 
     /**
@@ -108,7 +108,7 @@ class AdminSessionManagement
      */
     private function getCustomerIds() : array
     {
-        return $this->authSession->getData(self::ADMIN_SESSION_ATTRIBUTE_CUSTOMERS_ID) ?? [];
+        return $this->authSession->getData(self::ADMIN_SESSION_ATTRIBUTE_CUSTOMER_IDS) ?? [];
     }
 
     /**
@@ -149,7 +149,7 @@ class AdminSessionManagement
     }
 
     /**
-     * Get message and set customer id to admin session
+     * Get message and set customer id to admin session.
      *
      * @return string
      */
