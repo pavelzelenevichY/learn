@@ -42,67 +42,68 @@
             </settings>
         </selectionsColumn>
 
-        <column name="id" sortOrder="20">
+        <column name="note_id" sortOrder="11">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">Note ID</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="note" sortOrder="20">
+        <column name="note" sortOrder="12">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">Note</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="created_at" sortOrder="20">
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="13">
             <settings>
-                <filter>textRange</filter>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
                 <label translate="true">Created At</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="created_by" sortOrder="20">
+        <column name="created_by" class="Codifi\Training\UI\Component\Listing\Notes\Column\CreatorAdminName" sortOrder="14">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">Created By</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="updated_at" sortOrder="20">
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="15">
             <settings>
-                <filter>textRange</filter>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
                 <label translate="true">Updated At</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="updated_by" sortOrder="20">
+        <column name="updated_by" class="Codifi\Training\UI\Component\Listing\Notes\Column\CreatorAdminName" sortOrder="16">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">Updated By</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <column name="autocomplete" sortOrder="20">
+        <column name="autocomplete" component="Magento_Ui/js/grid/columns/select" sortOrder="17">
             <settings>
-                <filter>textRange</filter>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Codifi\Training\UI\Component\Listing\Notes\Column\YesNo"/>
                 <label translate="true">Autocomplete</label>
                 <sorting>asc</sorting>
             </settings>
         </column>
-
-        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions" component="Magento_Customer/js/grid/columns/actions">
+        <actionsColumn name="actions" class="Magento\Backend\Ui\Component\Listing\Column\EditAction" sortOrder="100">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="editUrlPath" xsi:type="string">inventory/stock/edit</item>
+                </item>
+            </argument>
             <settings>
                 <indexField>entity_id</indexField>
             </settings>
         </actionsColumn>
-
     </columns>
 </listing>

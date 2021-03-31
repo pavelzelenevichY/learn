@@ -18,11 +18,22 @@ use Magento\Framework\UrlInterface;
 class Actions extends Column
 {
     /**
+     * Url interface
+     *
      * @var UrlInterface
      */
     private $urlBuilder;
 
     /**
+     * Edit url
+     *
+     * @var string
+     */
+    private $editUrl = 'ads/asd/asd';
+
+    /**
+     * Actions constructor.
+     *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param UrlInterface $urlBuilder
@@ -40,6 +51,12 @@ class Actions extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
+    /**
+     * Prepare data source.
+     *
+     * @param array $dataSource
+     * @return array
+     */
     public function prepareDataSource(array $dataSource): array
     {
         if (isset($dataSource['data']['items'])) {
@@ -47,12 +64,8 @@ class Actions extends Column
                 $name = $this->getData('name');
                 if (isset($item['entity_id'])) {
                     $item[$name]['edit'] = [
-                        'callback' => [
-                            //
-                        ],
-                        'href' => '#',
-                        'label' => __('Edit'),
-                        'hidden' => false,
+                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['id']]),
+                        'label' => __('Edit')
                     ];
                 }
             }

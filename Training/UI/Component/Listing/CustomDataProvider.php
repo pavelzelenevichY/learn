@@ -10,12 +10,13 @@ declare(strict_types=1);
 
 namespace Codifi\Training\UI\Component\Listing;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\ReportingInterface;
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use Codifi\Training\Model\AdminSessionManagement;
-use Codifi\Training\Model\NoteRepository;
-use Magento\Backend\Model\Session as BackendSession;
-use Magento\Backend\Model\Auth\Session;
+use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
+use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
 
 /**
  * Class CustomDataProvider
@@ -24,67 +25,59 @@ use Magento\Backend\Model\Auth\Session;
 class CustomDataProvider extends DataProvider
 {
     /**
-     * @var AdminSessionManagement
+     * Customer note collection factory
+     *
+     * @var CollectionFactory
      */
-    public $adminSession;
+    protected $collectionFactory;
 
     /**
-     * @var BackendSession
+     * CustomDataProvider constructor.
+     *
+     * @param CollectionFactory $collectionFactory
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
+     * @param ReportingInterface $reporting
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RequestInterface $request
+     * @param FilterBuilder $filterBuilder
+     * @param array $meta
+     * @param array $data
      */
-    public $backendSession;
-
-    /**
-     * @var Session
-     */
-    public $authSession;
-
-    /**
-     * @var NoteRepository
-     */
-    public $noteRepository;
-
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    public $searchCriteriaBuilder;
-
-    public function _construct(
-//        AdminSessionManagement $adminSession,
-        NoteRepository $noteRepository,
+    public function __construct(
+        CollectionFactory $collectionFactory,
+        $name,
+        $primaryFieldName,
+        $requestFieldName,
+        ReportingInterface $reporting,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        BackendSession $backendSession,
-        Session $authSession
+        RequestInterface $request,
+        FilterBuilder $filterBuilder,
+        array $meta = [],
+        array $data = []
     ) {
-//        $this->adminSession = $adminSession;
-        $this->noteRepository = $noteRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->backendSession = $backendSession;
-        $this->authSession = $authSession;
+        $this->collectionFactory = $collectionFactory;
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $reporting,
+            $searchCriteriaBuilder,
+            $request,
+            $filterBuilder,
+            $meta,
+            $data
+        );
     }
 
     /**
-     * Get current customer id from admin session.
+     * Get collection
      *
-     * @return int
+     * @return Collection
      */
-    public function getCustomerId() : int
+    public function getCollection()
     {
-        die($this->authSession->getSessionId());
-        $customerData = $this->backendSession->getCustomerData();
-
-        return (int)$customerData['account']['id'] ?? 0;
-    }
-
-    /**
-     * Get data
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        $customerId = $this->getCustomerId();
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId)->create();
-//        die(var_dump($this->noteRepository->getList($searchCriteria)->getItems()));
-        return $this->noteRepository->getList($searchCriteria)->getItems();
+        return $this->collectionFactory->create();
     }
 }
