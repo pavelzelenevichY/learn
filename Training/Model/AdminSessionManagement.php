@@ -79,7 +79,7 @@ class AdminSessionManagement
      *
      * @return int
      */
-    private function getCustomerId() : int
+    public function getCustomerId() : int
     {
         $customerData = $this->backendSession->getCustomerData();
 
