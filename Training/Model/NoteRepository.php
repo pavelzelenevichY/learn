@@ -17,7 +17,6 @@ use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResourse;
 use Codifi\Training\Api\Data\NoteSearchResultInterfaceFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
@@ -29,13 +28,6 @@ use Exception;
  */
 class NoteRepository implements NoteRepositoryInterface
 {
-    /**
-     * Note interface.
-     *
-     * @var NoteInterface
-     */
-    private $note;
-
     /**
      * Note factory.
      *
@@ -51,11 +43,15 @@ class NoteRepository implements NoteRepositoryInterface
     private $noteResourse;
 
     /**
+     * Note search result factory.
+     *
      * @var NoteSearchResultInterfaceFactory
      */
     private $searchResultFactory;
 
     /**
+     * Collection processor interface.
+     *
      * @var CollectionProcessorInterface
      */
     private $collectionProcessor;
@@ -63,20 +59,17 @@ class NoteRepository implements NoteRepositoryInterface
     /**
      * NoteRepository constructor.
      *
-     * @param NoteInterface $note
      * @param CustomerNoteFactory $noteFactory
      * @param CustomerNoteResourse $noteResourse
      * @param NoteSearchResultInterfaceFactory $searchResultFactory
      * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
-        NoteInterface $note,
         CustomerNoteFactory $noteFactory,
         CustomerNoteResourse $noteResourse,
         NoteSearchResultInterfaceFactory $searchResultFactory,
         CollectionProcessorInterface $collectionProcessor
     ) {
-        $this->note = $note;
         $this->noteFactory = $noteFactory;
         $this->noteResourse = $noteResourse;
         $this->searchResultFactory = $searchResultFactory;
@@ -105,16 +98,16 @@ class NoteRepository implements NoteRepositoryInterface
      * Save note.
      *
      * @param NoteInterface $note
-     * @return NoteInterface|string
+     * @return NoteInterface
+     * @throws Exception
      */
     public function save(NoteInterface $note)
     {
-
         try {
             $this->noteResourse->save($note);
             $response = $note;
         } catch (Exception $exception) {
-            $response = $exception->getMessage();
+            throw $exception;
         }
 
         return $response;
@@ -124,7 +117,7 @@ class NoteRepository implements NoteRepositoryInterface
      * Delete note.
      *
      * @param NoteInterface $note
-     * @return NoteInterface|string
+     * @return NoteInterface
      * @throws Exception
      */
     public function delete(NoteInterface $note)
@@ -133,7 +126,7 @@ class NoteRepository implements NoteRepositoryInterface
             $this->noteResourse->delete($note);
             $response = $note;
         } catch (Exception $exception) {
-            $response = $exception->getMessage();
+            throw $exception;
         }
 
         return $response;
