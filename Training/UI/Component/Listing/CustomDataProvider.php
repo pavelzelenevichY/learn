@@ -31,24 +31,10 @@ class CustomDataProvider extends DataProvider
      */
     protected $collectionFactory;
 
-    /**
-     * CustomDataProvider constructor.
-     *
-     * @param CollectionFactory $collectionFactory
-     * @param $name
-     * @param $primaryFieldName
-     * @param $requestFieldName
-     * @param ReportingInterface $reporting
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param RequestInterface $request
-     * @param FilterBuilder $filterBuilder
-     * @param array $meta
-     * @param array $data
-     */
-    public function __construct(
+    public function __construct
+    (
         CollectionFactory $collectionFactory,
-        $name,
-        $primaryFieldName,
+        $name, $primaryFieldName,
         $requestFieldName,
         ReportingInterface $reporting,
         SearchCriteriaBuilder $searchCriteriaBuilder,
