@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">customer_note_form.customer_note_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Insert </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>customer_note_form</namespace>
+        <ajaxSave>true</ajaxSave>
+        <ajaxSaveType>simple</ajaxSaveType>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>customer_note_form.customer_note_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="customer_note_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="customer/note/save"/>
+            <validateUrl path="customer/address/validate"/>
+        </settings>
+        <dataProvider class="Codifi\Training\Ui\Config\CustomDataProvider" name="customer_note_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="fields" sortOrder="30">
+        <settings>
+            <label translate="true">Customer note fieldset</label>
+        </settings>
+        <field name="note_id" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="note" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="created_at" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="created_by" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="updated_at" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="updated_by" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+        <field name="autocomplete" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+            </settings>
+        </field>
+    </fieldset>
+</form>
