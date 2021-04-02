@@ -105,12 +105,11 @@ class NoteRepository implements NoteRepositoryInterface
     {
         try {
             $this->noteResourse->save($note);
-            $response = $note;
         } catch (Exception $exception) {
             throw $exception;
         }
 
-        return $response;
+        return $note;
     }
 
     /**
@@ -124,12 +123,11 @@ class NoteRepository implements NoteRepositoryInterface
     {
         try {
             $this->noteResourse->delete($note);
-            $response = $note;
         } catch (Exception $exception) {
             throw $exception;
         }
 
-        return $response;
+        return $note;
     }
 
     /**
