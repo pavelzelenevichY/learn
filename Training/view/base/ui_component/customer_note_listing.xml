@@ -32,7 +32,6 @@
     </dataSource>
     <listingToolbar name="listing_top">
         <columnsControls name="columns_controls"/>
-        <filterSearch name="fulltext"/>
         <filters name="listing_filters"/>
     </listingToolbar>
     <columns name="columns">

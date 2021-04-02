@@ -71,8 +71,7 @@ class CustomDataProvider extends AbstractDataProvider
             $items = $this->collection->getItems();
 
             foreach ($items as $item) {
-                    $item->load($item->getId());
-                    $this->loadedData[$item->getId()] = $item->getData();
+                $this->loadedData[$item->getId()] = $item->getData();
             }
         }
 
