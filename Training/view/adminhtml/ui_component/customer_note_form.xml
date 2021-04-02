@@ -41,9 +41,15 @@
             </settings>
         </dataProvider>
     </dataSource>
-    <fieldset name="fields" sortOrder="30">
+    <fieldset name="general" sortOrder="30">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="is_collection" xsi:type="boolean">true</item>
+            </item>
+        </argument>
         <settings>
             <label translate="true">Customer note fieldset</label>
+            <dataScope/>
         </settings>
         <field name="note_id" formElement="input">
             <settings>

@@ -18,7 +18,7 @@
                     <item name="buttonClasses" xsi:type="string">open-customer-note-form-modal-button</item>
                     <item name="actions" xsi:type="array">
                         <item name="0" xsi:type="array">
-                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_form.customer_note_form_loader</item>
+                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_form_modal.customer_note_form_loader</item>
                             <item name="actionName" xsi:type="string">destroyInserted</item>
                         </item>
                         <item name="1" xsi:type="array">
@@ -69,6 +69,7 @@
                         <param name="buttons">1</param>
                     </renderUrl>
                     <loading>true</loading>
+                    <externalProvider>${ $.ns }.customer_note_form_data_source</externalProvider>
                     <autoRender>true</autoRender>
                     <toolbarContainer>${ $.parentName }</toolbarContainer>
                     <ns>customer_note_form</ns>

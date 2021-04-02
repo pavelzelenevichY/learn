@@ -71,7 +71,7 @@ class Actions extends Column
                         'callback' => [
                             [
                                 'provider' => 'customer_form.areas.customer_notes.customer_notes'
-                                    . '.customer_note_form.customer_note_form_loader',
+                                    . '.customer_note_form_modal.customer_note_form_loader',
                                 'target' => 'destroyInserted',
                             ],
                             [
