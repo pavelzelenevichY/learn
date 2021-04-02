@@ -11,9 +11,11 @@ declare(strict_types=1);
 namespace Codifi\Training\Model;
 
 use Magento\Customer\Model\Session;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * Class CustomerSession
+ * Class CustomerSessionManagement
  * @package Codifi\Training\Model
  */
 class CustomerSessionManagement
@@ -33,9 +35,9 @@ class CustomerSessionManagement
     private $configProvider;
 
     /**
-     * CustomerSession constructor.
+     * CustomerSessionManagement constructor.
      *
-     * @param \Codifi\Training\Model\ConfigProvider $configProvider
+     * @param ConfigProvider $configProvider
      * @param Session $session
      */
     public function __construct(
@@ -50,8 +52,8 @@ class CustomerSessionManagement
      * Get customer attrubute credit hold.
      *
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getCustomerAttrCreditHold(): bool
     {
