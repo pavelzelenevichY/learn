@@ -41,7 +41,6 @@
                 <indexField>entity_id</indexField>
             </settings>
         </selectionsColumn>
-
         <column name="note_id" sortOrder="11">
             <settings>
                 <filter>textRange</filter>
@@ -95,14 +94,9 @@
                 <sorting>asc</sorting>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Magento\Backend\Ui\Component\Listing\Column\EditAction" sortOrder="100">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="editUrlPath" xsi:type="string">inventory/stock/edit</item>
-                </item>
-            </argument>
+        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions" component="Codifi_Training/js/grid/columns/actions">
             <settings>
-                <indexField>entity_id</indexField>
+                <indexField>note_id</indexField>
             </settings>
         </actionsColumn>
     </columns>

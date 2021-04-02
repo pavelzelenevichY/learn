@@ -1,29 +1,55 @@
 <?php
-
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
 
 namespace Codifi\Training\UI\Config;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
 use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
 
-
+/**
+ * Class CustomDataProvider
+ * @package Codifi\Training\UI\Config
+ */
 class CustomDataProvider extends AbstractDataProvider
 {
     /**
+     * Collection factory
+     *
      * @var CollectionFactory
      */
     public $collectionFactory;
 
+    /**
+     * Loaded data
+     *
+     * @var array
+     */
+    protected $loadedData;
+
+    /**
+     * CustomDataProvider constructor.
+     *
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param array $meta
+     * @param array $data
+     */
     public function __construct(
-        CollectionFactory $collectionFactory,
         $name,
         $primaryFieldName,
         $requestFieldName,
+        CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
     ) {
-        $this->collectionFactory = $collectionFactory;
+        $this->collection = $collectionFactory->create();
         parent::__construct(
             $name,
             $primaryFieldName,
@@ -33,16 +59,6 @@ class CustomDataProvider extends AbstractDataProvider
         );
     }
 
-//    /**
-//     * Get collection
-//     *
-//     * @return Collection
-//     */
-//    public function getCollection()
-//    {
-//        return $this->collectionFactory->create();
-//    }
-
     /**
      * Get data
      *
@@ -50,6 +66,16 @@ class CustomDataProvider extends AbstractDataProvider
      */
     public function getData()
     {
-        return [];
+        if ($this->loadedData === null) {
+            $this->loadedData = [];
+            $items = $this->collection->getItems();
+
+            foreach ($items as $item) {
+                    $item->load($item->getId());
+                    $this->loadedData[$item->getId()] = $item->getData();
+            }
+        }
+
+        return $this->loadedData;
     }
 }

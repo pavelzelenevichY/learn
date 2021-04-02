@@ -15,6 +15,10 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Framework\UrlInterface;
 
+/**
+ * Class Actions
+ * @package Codifi\Training\UI\Component\Listing\Notes\Column
+ */
 class Actions extends Column
 {
     /**
@@ -52,7 +56,7 @@ class Actions extends Column
     }
 
     /**
-     * Prepare data source.
+     * Prepare Data Source
      *
      * @param array $dataSource
      * @return array
@@ -62,10 +66,31 @@ class Actions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                if (isset($item['entity_id'])) {
+                if (isset($item['note_id'])) {
                     $item[$name]['edit'] = [
-                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['id']]),
-                        'label' => __('Edit')
+                        'callback' => [
+                            [
+                                'provider' => 'customer_form.areas.customer_notes.customer_notes'
+                                    . '.customer_note_form.customer_note_form_loader',
+                                'target' => 'destroyInserted',
+                            ],
+                            [
+                                'provider' => 'customer_form.areas.customer_notes.customer_notes'
+                                    . '.customer_note_form_modal',
+                                'target' => 'openModal',
+                            ],
+                            [
+                                'provider' => 'customer_form.areas.customer_notes.customer_notes'
+                                    . '.customer_note_form_modal.customer_note_form_loader',
+                                'target' => 'render',
+                                'params' => [
+                                    'note_id' => $item['note_id'],
+                                ],
+                            ]
+                        ],
+                        'href' => '#',
+                        'label' => __('Edit'),
+                        'hidden' => false,
                     ];
                 }
             }

@@ -12,21 +12,21 @@
         <settings>
             <label translate="true">Account Notes</label>
         </settings>
-        <button name="customer_note_edit_modal_button" component="Magento_Ui/js/form/components/button">
+        <button name="customer_note_form_modal_button" component="Magento_Ui/js/form/components/button">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="buttonClasses" xsi:type="string">open-customer-note-edit-modal-button</item>
+                    <item name="buttonClasses" xsi:type="string">open-customer-note-form-modal-button</item>
                     <item name="actions" xsi:type="array">
                         <item name="0" xsi:type="array">
-                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_edit_modal.customer_note_edit_loader</item>
+                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_form.customer_note_form_loader</item>
                             <item name="actionName" xsi:type="string">destroyInserted</item>
                         </item>
                         <item name="1" xsi:type="array">
-                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_edit_modal</item>
+                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_form_modal</item>
                             <item name="actionName" xsi:type="string">openModal</item>
                         </item>
                         <item name="2" xsi:type="array">
-                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_edit_modal.customer_note_edit_loader</item>
+                            <item name="targetName" xsi:type="string">${ $.parentName}.customer_note_form_modal.customer_note_form_loader</item>
                             <item name="actionName" xsi:type="string">render</item>
                         </item>
                     </item>
@@ -36,32 +36,42 @@
                 <title translate="true">Add New Note</title>
             </settings>
         </button>
-        <modal name="customer_note_edit_modal">
+        <modal name="customer_note_form_modal">
             <settings>
                 <options>
                     <option name="title" xsi:type="string">Note Form Modal</option>
-                </options>
+                    <option name="buttons" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Cancel</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Save</item>
+                                <item name="class" xsi:type="string">action-primary</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">index = customer_note_form_loader</item>
+                                        <item name="actionName" xsi:type="string">save</item>
+                                    </item>
+                                    <item name="1" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                        </option>
+                    </options>
             </settings>
-            <insertForm name="customer_note_form">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="noteListingProvider" xsi:type="string">ns = customer_note_listing, index = customer_note_listing</item>
-                        <item name="noteModalProvider" xsi:type="string">${ $.parentName }</item>
-                    </item>
-                </argument>
+            <insertForm name="customer_note_form_loader">
                 <settings>
                     <formSubmitType>ajax</formSubmitType>
-                    <renderUrl path="mui/index/render_handle">
-                        <param name="handle">customer_note_edit</param>
+                    <renderUrl path="mui/index/render">
+                        <param name="handle">customer_note_form</param>
                         <param name="buttons">1</param>
                     </renderUrl>
-                    <loading>false</loading>
+                    <loading>true</loading>
+                    <autoRender>true</autoRender>
                     <toolbarContainer>${ $.parentName }</toolbarContainer>
-                    <externalProvider>${ $.ns }.customer_note_form_data_source</externalProvider>
                     <ns>customer_note_form</ns>
-                    <exports>
-                        <link name="parentId">${ $.externalProvider }:data.parent_id</link>
-                    </exports>
                 </settings>
             </insertForm>
         </modal>
