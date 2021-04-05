@@ -11,6 +11,7 @@ namespace Codifi\Training\Api;
 use Codifi\Training\Api\Data\NoteInterface;
 use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Interface NoteRepositoryInterface
@@ -54,7 +55,7 @@ interface NoteRepositoryInterface
      * Get list.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return NoteSearchResultInterface
+     * @return SearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 }

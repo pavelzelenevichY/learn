@@ -6,24 +6,19 @@
  * @author      Pavel Zelenevich <pzelenevich@codifi.me>
  */
 
+declare(strict_types=1);
+
 namespace Codifi\Training\UI\Config;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
 
 /**
- * Class CustomDataProvider
+ * Class AccountNoteFormDataProvider
  * @package Codifi\Training\UI\Config
  */
-class CustomDataProvider extends AbstractDataProvider
+class AccountNoteFormDataProvider extends AbstractDataProvider
 {
-    /**
-     * Collection factory
-     *
-     * @var CollectionFactory
-     */
-    public $collectionFactory;
-
     /**
      * Loaded data
      *
@@ -32,7 +27,7 @@ class CustomDataProvider extends AbstractDataProvider
     protected $loadedData;
 
     /**
-     * CustomDataProvider constructor.
+     * AccountNoteFormDataProvider constructor.
      *
      * @param $name
      * @param $primaryFieldName
@@ -61,8 +56,6 @@ class CustomDataProvider extends AbstractDataProvider
 
     /**
      * Get data
-     *
-     * @return array
      */
     public function getData()
     {

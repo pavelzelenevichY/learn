@@ -16,41 +16,41 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\User\Model\ResourceModel\User\CollectionFactory;
 
 /**
- * Class CreatorAdminName
+ * Class AdminNameReceiver
  * @package Codifi\Training\UI\Component\Listing\Notes\Column
  */
-class CreatorAdminName extends Column
+class AdminNameReceiver extends Column
 {
     /**
      * Admin collection factory
      *
      * @var CollectionFactory
      */
-    public $userCollection;
+    public $userCollectionFactory;
 
     /**
-     * CreatorAdminName constructor.
+     * AdminNameReceiver constructor.
      *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
+     * @param CollectionFactory $userCollectionFactory
      * @param array $components
      * @param array $data
-     * @param CollectionFactory $userCollection
      */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
+        CollectionFactory $userCollectionFactory,
         array $components = [],
-        array $data = [],
-        CollectionFactory $userCollection
+        array $data = []
     ) {
+        $this->userCollectionFactory = $userCollectionFactory;
         parent::__construct(
             $context,
             $uiComponentFactory,
             $components,
             $data
         );
-        $this->userCollection = $userCollection;
     }
 
     /**
@@ -65,8 +65,7 @@ class CreatorAdminName extends Column
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item[$fieldName] != '') {
-                    $adminName = $this->getAdminName($item[$fieldName]);
-                    $item[$fieldName] = $adminName.'(ID:'.$item[$fieldName].')';
+                    $item[$fieldName] = $this->getAdminName($item[$fieldName]);
                 }
             }
         }
@@ -83,11 +82,11 @@ class CreatorAdminName extends Column
     private function getAdminName($userId): string
     {
         $name = '';
-        $users = $this->userCollection->create();
+        $users = $this->userCollectionFactory->create();
         $array = $users->getData();
         foreach ($array as $item) {
             if ($item['user_id'] === $userId) {
-                $name = $item['username'];
+                $name = $item['firstname'].' '.$item['lastname'].' (ID: '.$item['user_id'].')';
             }
         }
 

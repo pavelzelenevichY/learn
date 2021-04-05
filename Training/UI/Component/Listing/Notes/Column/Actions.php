@@ -29,13 +29,6 @@ class Actions extends Column
     private $urlBuilder;
 
     /**
-     * Edit url
-     *
-     * @var string
-     */
-    private $editUrl = 'ads/asd/asd';
-
-    /**
      * Actions constructor.
      *
      * @param ContextInterface $context

@@ -21,6 +21,9 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Exception;
+use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
+use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Class NoteRepository
@@ -57,6 +60,16 @@ class NoteRepository implements NoteRepositoryInterface
     private $collectionProcessor;
 
     /**
+     * @var CollectionFactory
+     */
+    private $customerNoteCollectionFactory;
+
+    /**
+     * @var Collection
+     */
+    private $noteCollection;
+
+    /**
      * NoteRepository constructor.
      *
      * @param CustomerNoteFactory $noteFactory
@@ -68,12 +81,16 @@ class NoteRepository implements NoteRepositoryInterface
         CustomerNoteFactory $noteFactory,
         CustomerNoteResourse $noteResourse,
         NoteSearchResultInterfaceFactory $searchResultFactory,
-        CollectionProcessorInterface $collectionProcessor
+        CollectionProcessorInterface $collectionProcessor,
+        CollectionFactory $customerNoteCollectionFactory,
+        Collection $noteCollection
     ) {
         $this->noteFactory = $noteFactory;
         $this->noteResourse = $noteResourse;
         $this->searchResultFactory = $searchResultFactory;
         $this->collectionProcessor = $collectionProcessor;
+        $this->customerNoteCollectionFactory = $customerNoteCollectionFactory;
+        $this->noteCollection = $noteCollection;
     }
 
     /**
@@ -145,13 +162,16 @@ class NoteRepository implements NoteRepositoryInterface
      * Get list.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return NoteSearchResultInterface
+     * @return SearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): NoteSearchResultInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
+        $collection = $this->customerNoteCollectionFactory->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
         $searchResult = $this->searchResultFactory->create();
-        $this->collectionProcessor->process($searchCriteria, $searchResult);
         $searchResult->setSearchCriteria($searchCriteria);
+        $searchResult->setItems($collection->getItems());
+        $searchResult->setTotalCount($collection->getSize());
 
         return $searchResult;
     }
