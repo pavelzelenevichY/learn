@@ -21,12 +21,6 @@
             <argument name="backendSession" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <virtualType name="Codifi\Training\Model\ResourceModel\CustomerNote\Grig\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">customer_note</argument>
-            <argument name="resourceModel" xsi:type="string">Codifi\Training\Model\ResourceModel\CustomerNote</argument>
-        </arguments>
-    </virtualType>
     <preference for="Codifi\Training\Api\NoteRepositoryInterface" type="Codifi\Training\Model\NoteRepository"/>
     <preference for="Codifi\Training\Api\Data\NoteInterface" type="Codifi\Training\Model\Note"/>
     <preference for="Codifi\Training\Api\Data\NoteSearchResultInterface" type="Magento\Framework\Api\SearchResults"/>
