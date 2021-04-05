@@ -16,41 +16,41 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\User\Model\ResourceModel\User\CollectionFactory;
 
 /**
- * Class CreatorAdminName
+ * Class AdminNameReceiver
  * @package Codifi\Training\UI\Component\Listing\Notes\Column
  */
-class CreatorAdminName extends Column
+class AdminNameReceiver extends Column
 {
     /**
      * Admin collection factory
      *
      * @var CollectionFactory
      */
-    public $userCollection;
+    private $userCollectionFactory;
 
     /**
-     * CreatorAdminName constructor.
+     * AdminNameReceiver constructor.
      *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param array $components
      * @param array $data
-     * @param CollectionFactory $userCollection
+     * @param CollectionFactory $userCollectionFactory
      */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
+        CollectionFactory $userCollectionFactory,
         array $components = [],
-        array $data = [],
-        CollectionFactory $userCollection
+        array $data = []
     ) {
+        $this->userCollectionFactory = $userCollectionFactory;
         parent::__construct(
             $context,
             $uiComponentFactory,
             $components,
             $data
         );
-        $this->userCollection = $userCollection;
     }
 
     /**
@@ -65,8 +65,7 @@ class CreatorAdminName extends Column
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
                 if ($item[$fieldName] != '') {
-                    $adminName = $this->getAdminName($item[$fieldName]);
-                    $item[$fieldName] = $adminName.'(ID:'.$item[$fieldName].')';
+                    $item[$fieldName] = $this->getAdminName($item[$fieldName]);
                 }
             }
         }
@@ -77,19 +76,14 @@ class CreatorAdminName extends Column
     /**
      * Get admin name by id.
      *
-     * @param $userId
+     * @param int $userId
      * @return string
      */
-    private function getAdminName($userId): string
+    private function getAdminName(int $userId): string
     {
-        $name = '';
-        $users = $this->userCollection->create();
-        $array = $users->getData();
-        foreach ($array as $item) {
-            if ($item['user_id'] === $userId) {
-                $name = $item['username'];
-            }
-        }
+        $users = $this->userCollectionFactory->create()->addFieldToFilter('user_id', $userId);
+        $user = $users->getData();
+        $name = $user['firstname'].' '.$user['lastname'].' (ID: '.$user['user_id'].')';
 
         return $name;
     }

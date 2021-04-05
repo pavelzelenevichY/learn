@@ -19,27 +19,35 @@ use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
 
 /**
- * Class CustomDataProvider
+ * Class AccountNoteDataProvider
  * @package Codifi\Training\UI\Component\Listing
  */
-class CustomDataProvider extends DataProvider
+class AccountNoteDataProvider extends DataProvider
 {
     /**
-     * Customer note collection factory
+     * AccountNoteDataProvider constructor.
      *
-     * @var CollectionFactory
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
+     * @param ReportingInterface $reporting
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RequestInterface $request
+     * @param FilterBuilder $filterBuilder
+     * @param CollectionFactory $collectionFactory
+     * @param array $meta
+     * @param array $data
      */
-    protected $collectionFactory;
-
     public function __construct
     (
-        CollectionFactory $collectionFactory,
-        $name, $primaryFieldName,
+        $name,
+        $primaryFieldName,
         $requestFieldName,
         ReportingInterface $reporting,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
+        CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
     ) {
@@ -57,13 +65,8 @@ class CustomDataProvider extends DataProvider
         );
     }
 
-    /**
-     * Get collection
-     *
-     * @return Collection
-     */
-    public function getCollection()
+    public function getData()
     {
-        return $this->collectionFactory->create();
+        return parent::getData();
     }
 }

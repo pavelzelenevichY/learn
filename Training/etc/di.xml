@@ -21,13 +21,6 @@
             <argument name="backendSession" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="customer_note_listing_data_source" xsi:type="string">Codifi\Training\Model\ResourceModel\CustomerNote\Grig\Collection</item>
-            </argument>
-        </arguments>
-    </type>
     <virtualType name="Codifi\Training\Model\ResourceModel\CustomerNote\Grig\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">customer_note</argument>

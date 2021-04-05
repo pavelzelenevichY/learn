@@ -14,10 +14,6 @@
         </settings>
         <insertListing name="customer_note_listing" >
             <settings>
-                <dataLinks>
-                    <exports>false</exports>
-                    <imports>true</imports>
-                </dataLinks>
                 <autoRender>true</autoRender>
                 <selectionsProvider>customer_note_listing.customer_note_listing.columns.ids</selectionsProvider>
                 <dataScope>customer_note_listing</dataScope>
