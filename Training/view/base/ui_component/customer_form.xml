@@ -52,7 +52,7 @@
                                 <item name="class" xsi:type="string">action-primary</item>
                                 <item name="actions" xsi:type="array">
                                     <item name="0" xsi:type="array">
-                                        <item name="targetName" xsi:type="string">index = customer_note_form_loader</item>
+                                        <item name="targetName" xsi:type="string">index = customer_note_form</item>
                                         <item name="actionName" xsi:type="string">save</item>
                                     </item>
                                     <item name="1" xsi:type="string">closeModal</item>

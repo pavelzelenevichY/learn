@@ -159,4 +159,9 @@ class AdminSessionManagement
 
         return $this->configProvider->getMessage();
     }
+
+    public function getAdminId()
+    {
+        return $this->backendSession->getData();
+    }
 }

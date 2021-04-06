@@ -32,7 +32,6 @@
         </argument>
         <settings>
             <submitUrl path="customer/note/save"/>
-            <validateUrl path="customer/address/validate"/>
         </settings>
         <dataProvider class="Codifi\Training\UI\Config\AccountNoteFormDataProvider" name="customer_note_form_data_source">
             <settings>
