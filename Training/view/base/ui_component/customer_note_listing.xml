@@ -35,7 +35,7 @@
         <filters name="listing_filters"/>
     </listingToolbar>
     <columns name="columns">
-        <selectionsColumn name="note_id" sortOrder="10">
+        <selectionsColumn name="ids" sortOrder="10">
             <settings>
                 <indexField>note_id</indexField>
             </settings>

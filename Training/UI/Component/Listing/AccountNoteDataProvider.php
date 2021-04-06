@@ -60,13 +60,14 @@ class AccountNoteDataProvider extends DataProvider
         $requestFieldName,
         ReportingInterface $reporting,
         ParentSearchCriteriaBuilder $searchCriteriaBuilder,
-        RequestInterface $request, FilterBuilder $filterBuilder,
+        RequestInterface $request,
+        FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilderChild,
         NoteRepository $noteRepository,
         AdminSessionManagement $adminSessionManagement,
         array $meta = [],
-        array $data = [])
-    {
+        array $data = []
+    ) {
         $this->searchCriteriaBuilderChild = $searchCriteriaBuilderChild;
         $this->noteRepository = $noteRepository;
         $this->adminSessionManagement = $adminSessionManagement;
@@ -79,13 +80,16 @@ class AccountNoteDataProvider extends DataProvider
             $request,
             $filterBuilder,
             $meta,
-            $data);
+            $data
+        );
     }
 
     /**
      * Get data
+     *
+     * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         $customerId = $this->adminSessionManagement->getCustomerId();
         $searchCriteria = $this->searchCriteriaBuilderChild->addFilter('customer_id', $customerId)->create();
