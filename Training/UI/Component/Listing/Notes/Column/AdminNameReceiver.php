@@ -81,9 +81,14 @@ class AdminNameReceiver extends Column
      */
     private function getAdminName(int $userId): string
     {
-        $users = $this->userCollectionFactory->create()->addFieldToFilter('user_id', $userId);
-        $user = $users->getData();
-        $name = $user['firstname'].' '.$user['lastname'].' (ID: '.$user['user_id'].')';
+        $name = '';
+        $users = $this->userCollectionFactory->create();
+        $array = $users->getData();
+        foreach ($array as $item) {
+            if ($item['user_id'] === $userId) {
+                $name = $item['firstname'] . ' ' . $item['lastname'] . ' (ID: ' . $item['user_id'] . ')';
+            }
+        }
 
         return $name;
     }
