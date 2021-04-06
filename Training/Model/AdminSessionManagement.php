@@ -162,6 +162,14 @@ class AdminSessionManagement
 
     public function getAdminId()
     {
-        return $this->backendSession->getData();
+        $admin = $this->authSession->getUser();
+        $adminId = (int)$admin->getId();
+        $customerId = $this->getCustomerId();
+        $data = [
+            'admin_id' => $adminId,
+            'customer_id' => $customerId
+        ];
+
+        return $data;
     }
 }
