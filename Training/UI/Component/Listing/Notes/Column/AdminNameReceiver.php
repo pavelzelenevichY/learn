@@ -86,7 +86,7 @@ class AdminNameReceiver extends Column
         $array = $users->getData();
         foreach ($array as $item) {
             if ($item['user_id'] === $userId) {
-                $name = $item['firstname'].' '.$item['lastname'].' (ID: '.$item['user_id'].')';
+                $name = $item['firstname'] . ' ' . $item['lastname'] . ' (ID: ' . $item['user_id'] . ')';
             }
         }
 
