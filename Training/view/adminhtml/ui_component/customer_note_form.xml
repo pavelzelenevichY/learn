@@ -92,12 +92,28 @@
                 <disabled>1</disabled>
             </settings>
         </field>
-        <field name="autocomplete" formElement="input">
+        <field name="autocomplete" formElement="select">
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Autocomplete</label>
                 <disabled>1</disabled>
             </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">1</item>
+                                <item name="label" xsi:type="string">Yes</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">0</item>
+                                <item name="label" xsi:type="string">No</item>
+                            </option>
+                        </options>
+                    </settings>
+                </select>
+            </formElements>
         </field>
     </fieldset>
 </form>
