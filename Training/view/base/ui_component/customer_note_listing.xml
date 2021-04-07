@@ -62,7 +62,7 @@
                 <sorting>asc</sorting>
             </settings>
         </column>
-        <column name="created_by" class="Codifi\Training\UI\Component\Listing\Notes\Column\CreatorAdminName" sortOrder="50">
+        <column name="created_by" class="Codifi\Training\UI\Component\Listing\Notes\Column\AdminNameReceiver" sortOrder="50">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">Created By</label>
@@ -90,7 +90,7 @@
                 <label translate="true">Autocomplete</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions" component="Codifi_Training/js/grid/columns/actions">
+        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions">
             <settings>
                 <indexField>note_id</indexField>
             </settings>

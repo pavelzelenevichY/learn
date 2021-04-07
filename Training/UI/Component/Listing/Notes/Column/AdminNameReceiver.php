@@ -26,16 +26,16 @@ class AdminNameReceiver extends Column
      *
      * @var CollectionFactory
      */
-    private $userCollectionFactory;
+    public $userCollectionFactory;
 
     /**
      * AdminNameReceiver constructor.
      *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
+     * @param CollectionFactory $userCollectionFactory
      * @param array $components
      * @param array $data
-     * @param CollectionFactory $userCollectionFactory
      */
     public function __construct(
         ContextInterface $context,
@@ -64,8 +64,10 @@ class AdminNameReceiver extends Column
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
-                if ($item[$fieldName] != '') {
-                    $item[$fieldName] = $this->getAdminName($item[$fieldName]);
+                if (!empty($item[$fieldName])) {
+                    $item[$fieldName] = $this->getAdminName((int)$item[$fieldName]);
+                } else {
+                    $item[$fieldName] = '';
                 }
             }
         }
@@ -79,17 +81,18 @@ class AdminNameReceiver extends Column
      * @param int $userId
      * @return string
      */
-    private function getAdminName(int $userId): string
+    private function getAdminName($userId): string
     {
-        $name = '';
-        $users = $this->userCollectionFactory->create();
-        $array = $users->getData();
-        foreach ($array as $item) {
-            if ($item['user_id'] === $userId) {
-                $name = $item['firstname'] . ' ' . $item['lastname'] . ' (ID: ' . $item['user_id'] . ')';
+        $useerName = '';
+        $userCollection = $this->userCollectionFactory->create();
+        $users = $userCollection->getData();
+        foreach ($users as $user) {
+            if ((int)$user['user_id'] === $userId) {
+                $useerName = $user['firstname'] . ' ' . $user['lastname'] . ' (ID: ' . $user['user_id'] . ')';
+                break;
             }
         }
 
-        return $name;
+        return $useerName;
     }
 }
