@@ -59,10 +59,9 @@ class AccountNoteFormDataProvider extends AbstractDataProvider
      *
      * @return array
      */
-    public function getData(): array
+    public function getData()
     {
         if (empty($this->loadedData)) {
-            $this->loadedData = [];
             $items = $this->collection->getItems();
 
             foreach ($items as $item) {
