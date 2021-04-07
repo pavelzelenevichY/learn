@@ -25,9 +25,11 @@ class YesNo implements OptionSourceInterface
      */
     public function toOptionArray(): array
     {
-        return [
-            ['label' => __('Yes'), 'value' => 1],
-            ['label' => __('No'), 'value' => 0]
+        $options = [
+            ['value' => 0, 'label' => __('No')],
+            ['value' => 1, 'label' => __('Yes')]
         ];
+
+        return $options;
     }
 }
