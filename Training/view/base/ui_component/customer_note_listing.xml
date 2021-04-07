@@ -89,7 +89,7 @@
                 <label translate="true">Autocomplete</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions" component="Codifi_Training/js/grid/columns/actions">
+        <actionsColumn name="actions" class="Codifi\Training\UI\Component\Listing\Notes\Column\Actions" component="Magento_Customer/js/grid/columns/actions">
             <settings>
                 <indexField>note_id</indexField>
             </settings>
