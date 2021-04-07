@@ -12,11 +12,9 @@ namespace Codifi\Training\UI\Component\Listing;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;
-use Magento\Framework\Api\Search\SearchCriteriaBuilder as ParentSearchCriteriaBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
 use Codifi\Training\Model\AdminSessionManagement;
 use Codifi\Training\Model\NoteRepository;
 
@@ -26,13 +24,6 @@ use Codifi\Training\Model\NoteRepository;
  */
 class AccountNoteDataProvider extends DataProvider
 {
-    /**
-     * Customer note collection factory
-     *
-     * @var CollectionFactory
-     */
-    protected $collectionFactory;
-
     /**
      * Admin session management
      *
@@ -48,27 +39,33 @@ class AccountNoteDataProvider extends DataProvider
     private $noteRepository;
 
     /**
-     * Search criteria builder
+     * AccountNoteDataProvider constructor.
      *
-     * @var SearchCriteriaBuilder
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param ReportingInterface $reporting
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RequestInterface $request
+     * @param FilterBuilder $filterBuilder
+     * @param NoteRepository $noteRepository
+     * @param AdminSessionManagement $adminSessionManagement
+     * @param array $meta
+     * @param array $data
      */
-    public $searchCriteriaBuilderChild;
-
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
         ReportingInterface $reporting,
-        ParentSearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
-        SearchCriteriaBuilder $searchCriteriaBuilderChild,
         NoteRepository $noteRepository,
         AdminSessionManagement $adminSessionManagement,
         array $meta = [],
         array $data = []
     ) {
-        $this->searchCriteriaBuilderChild = $searchCriteriaBuilderChild;
         $this->noteRepository = $noteRepository;
         $this->adminSessionManagement = $adminSessionManagement;
         parent::__construct(
@@ -92,16 +89,21 @@ class AccountNoteDataProvider extends DataProvider
     public function getData(): array
     {
         $customerId = $this->adminSessionManagement->getCustomerId();
-        $searchCriteria = $this->searchCriteriaBuilderChild->addFilter('customer_id', $customerId)->create();
-        $repo = $this->noteRepository->getList($searchCriteria)->getItems();
-        $returnData = [
-            'items' => []
-        ];
 
-        foreach ($repo as $item) {
-            if ($item->getData('note_id')) {
-                $returnData['items'][] = $item->getData();
-            }
+        $filterSetField = $this->filterBuilder->setField('customer_id');
+        $filterSetValue = $filterSetField->setValue($customerId);
+        $filter = $filterSetValue->create();
+
+        $searchCriteriaAddFilter = $this->searchCriteriaBuilder->addFilter($filter);
+        $searchCriteria = $searchCriteriaAddFilter->create();
+
+        $list = $this->noteRepository->getList($searchCriteria);
+        $items = $list->getItems();
+
+        $returnData['items'] = [];
+
+        foreach ($items as $item) {
+            $returnData['items'][] = $item->getData();
         }
         $returnData['totalRecords'] = count($returnData['items']);
 
