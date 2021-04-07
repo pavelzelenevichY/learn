@@ -60,11 +60,15 @@ class NoteRepository implements NoteRepositoryInterface
     private $collectionProcessor;
 
     /**
+     * Customer note collection factory.
+     *
      * @var CollectionFactory
      */
     private $customerNoteCollectionFactory;
 
     /**
+     * Customer note collection.
+     *
      * @var Collection
      */
     private $noteCollection;
