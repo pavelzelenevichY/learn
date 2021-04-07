@@ -31,7 +31,7 @@ class AccountNoteFormDataProvider extends AbstractDataProvider
      *
      * @param string $name
      * @param string $primaryFieldName
-     * @param $requestFieldName
+     * @param string $requestFieldName
      * @param CollectionFactory $collectionFactory
      * @param array $meta
      * @param array $data
@@ -59,7 +59,7 @@ class AccountNoteFormDataProvider extends AbstractDataProvider
      *
      * @return array
      */
-    public function getData()
+    public function getData(): ?array
     {
         if ($this->loadedData === null) {
             $items = $this->collection->getItems();

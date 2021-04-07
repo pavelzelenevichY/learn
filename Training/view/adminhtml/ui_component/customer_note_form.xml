@@ -100,16 +100,7 @@
             <formElements>
                 <select>
                     <settings>
-                        <options>
-                            <option name="1" xsi:type="array">
-                                <item name="value" xsi:type="string">1</item>
-                                <item name="label" xsi:type="string">Yes</item>
-                            </option>
-                            <option name="2" xsi:type="array">
-                                <item name="value" xsi:type="string">0</item>
-                                <item name="label" xsi:type="string">No</item>
-                            </option>
-                        </options>
+                        <options class="Codifi\Training\UI\Component\Listing\Notes\Column\YesNo"/>
                     </settings>
                 </select>
             </formElements>
