@@ -68,7 +68,12 @@
                         </option>
                     </options>
             </settings>
-            <insertForm name="customer_note_form_loader">
+            <insertForm name="customer_note_form_loader" component="Codifi_Training/js/form/components/insert-form">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="noteListingProvider" xsi:type="string">index = customer_note_listing_data_source</item>
+                     </item>
+                </argument>
                 <settings>
                     <formSubmitType>ajax</formSubmitType>
                     <renderUrl path="mui/index/render">

@@ -11,9 +11,10 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Codifi\Training\Model\NoteRepository;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\AlreadyExistsException;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\App\ResponseInterface;
+use Exception;
 
 class Save extends Action
 {
@@ -69,14 +70,13 @@ class Save extends Action
     }
 
     /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
-     * @throws AlreadyExistsException
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * Execute function
+     *
+     * @return ResponseInterface|Json|ResultInterface
+     * @throws Exception
      */
     public function execute()
     {
-
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
@@ -85,13 +85,11 @@ class Save extends Action
         $adminId = $ids['admin_id'];
         $customerId = $ids['customer_id'];
 
-        $noteId = $this->getRequest()->getParam('note_id');
-
-        $noteText = $this->getRequest()->getParam('note');
-
-        $createdAt = $this->getRequest()->getParam('created_at');
-
-        $createdBy = $this->getRequest()->getParam('created_by');
+        $request = $this->getRequest();
+        $noteId = $request->getParam('note_id');
+        $noteText = $request->getParam('note');
+        $createdAt = $request->getParam('created_at');
+        $createdBy = $request->getParam('created_by');
 
         if ($noteText) {
             if (!$noteId) {
@@ -104,7 +102,10 @@ class Save extends Action
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __(''),
+                    'message' => __('Complete!'),
+                    'data' => [
+                        'note_id' => $noteId
+                    ]
                 ];
             } else {
                 $data = [
@@ -118,7 +119,10 @@ class Save extends Action
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __(''),
+                    'message' => __('Complete!'),
+                    'data' => [
+                        'note_id' => $noteId
+                    ]
                 ];
             }
 
@@ -128,16 +132,21 @@ class Save extends Action
             } catch (LocalizedException $exception) {
                 $resultData = [
                     'success' => false,
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
+                    'data' => [
+                        'note_id' => ''
+                    ]
                 ];
             }
         } else {
             $resultData = [
                 'success' => false,
                 'message' => __('Note text is missed.'),
+                'data' => [
+                    'note_id' => ''
+                ]
             ];
         }
-
         $resultJson->setData($resultData);
 
         return $resultJson;
