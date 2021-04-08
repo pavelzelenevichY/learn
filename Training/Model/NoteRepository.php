@@ -17,7 +17,6 @@ use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResourse;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\SearchCriteriaInterface;
-
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Exception;
 use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
@@ -46,7 +45,7 @@ class NoteRepository implements NoteRepositoryInterface
     private $noteResourse;
 
     /**
-     * Note search result factory.
+     * Search result interface factory.
      *
      * @var SearchResultsInterfaceFactory
      */
