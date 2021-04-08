@@ -12,7 +12,6 @@ namespace Codifi\Training\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Codifi\Training\Setup\Patch\Data\AddCustomerAttributeCreditHold;
 
 /**
  * Class ConfigProvider
@@ -40,13 +39,6 @@ class ConfigProvider
      * @var string
      */
     const SESSION_FLAG = 'flag';
-
-    /**
-     * Constant code of custom customer attribute credit_hold.
-     *
-     * @var string
-     */
-    const ATTRIBUTE_CODE_CREDIT_HOLD = AddCustomerAttributeCreditHold::ATTRIBUTE_CODE;
 
     /**
      * Scope config.
@@ -83,6 +75,6 @@ class ConfigProvider
      */
     public function getMessage() : string
     {
-        return $this->scopeConfig->getValue(self::PATH_OPTION_MESSAGE, $this->scopeConfig::SCOPE_TYPE_DEFAULT);
+        return $this->scopeConfig->getValue(self::PATH_OPTION_MESSAGE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
     }
 }

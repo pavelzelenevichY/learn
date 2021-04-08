@@ -15,12 +15,14 @@ use Codifi\Training\Api\NoteRepositoryInterface;
 use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResourse;
-use Codifi\Training\Api\Data\NoteSearchResultInterfaceFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Exception;
+use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
+use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
+use Magento\Framework\Api\SearchResultsInterfaceFactory;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Class NoteRepository
@@ -43,9 +45,9 @@ class NoteRepository implements NoteRepositoryInterface
     private $noteResourse;
 
     /**
-     * Note search result factory.
+     * Search result interface factory.
      *
-     * @var NoteSearchResultInterfaceFactory
+     * @var SearchResultsInterfaceFactory
      */
     private $searchResultFactory;
 
@@ -57,23 +59,41 @@ class NoteRepository implements NoteRepositoryInterface
     private $collectionProcessor;
 
     /**
+     * Customer note collection factory.
+     *
+     * @var CollectionFactory
+     */
+    private $customerNoteCollectionFactory;
+
+    /**
+     * Customer note collection.
+     *
+     * @var Collection
+     */
+    private $noteCollection;
+
+    /**
      * NoteRepository constructor.
      *
      * @param CustomerNoteFactory $noteFactory
      * @param CustomerNoteResourse $noteResourse
-     * @param NoteSearchResultInterfaceFactory $searchResultFactory
+     * @param SearchResultsInterfaceFactory $searchResultFactory
      * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
         CustomerNoteFactory $noteFactory,
         CustomerNoteResourse $noteResourse,
-        NoteSearchResultInterfaceFactory $searchResultFactory,
-        CollectionProcessorInterface $collectionProcessor
+        SearchResultsInterfaceFactory $searchResultFactory,
+        CollectionProcessorInterface $collectionProcessor,
+        CollectionFactory $customerNoteCollectionFactory,
+        Collection $noteCollection
     ) {
         $this->noteFactory = $noteFactory;
         $this->noteResourse = $noteResourse;
         $this->searchResultFactory = $searchResultFactory;
         $this->collectionProcessor = $collectionProcessor;
+        $this->customerNoteCollectionFactory = $customerNoteCollectionFactory;
+        $this->noteCollection = $noteCollection;
     }
 
     /**
@@ -145,13 +165,16 @@ class NoteRepository implements NoteRepositoryInterface
      * Get list.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return NoteSearchResultInterface
+     * @return SearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): NoteSearchResultInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
+        $collection = $this->customerNoteCollectionFactory->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
         $searchResult = $this->searchResultFactory->create();
-        $this->collectionProcessor->process($searchCriteria, $searchResult);
         $searchResult->setSearchCriteria($searchCriteria);
+        $searchResult->setItems($collection->getItems());
+        $searchResult->setTotalCount($collection->getSize());
 
         return $searchResult;
     }
