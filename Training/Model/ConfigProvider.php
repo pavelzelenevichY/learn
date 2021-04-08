@@ -41,13 +41,6 @@ class ConfigProvider
     const SESSION_FLAG = 'flag';
 
     /**
-     * Constant code of custom customer attribute credit_hold.
-     *
-     * @var string
-     */
-    const ATTRIBUTE_CODE_CREDIT_HOLD = 'credit_hold';
-
-    /**
      * Scope config.
      *
      * @var ScopeConfigInterface
@@ -82,6 +75,6 @@ class ConfigProvider
      */
     public function getMessage() : string
     {
-        return $this->scopeConfig->getValue(self::PATH_OPTION_MESSAGE, $this->scopeConfig::SCOPE_TYPE_DEFAULT);
+        return $this->scopeConfig->getValue(self::PATH_OPTION_MESSAGE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
     }
 }

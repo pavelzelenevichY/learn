@@ -13,6 +13,7 @@ namespace Codifi\Training\Model;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Codifi\Training\Setup\Patch\Data\AddCustomerAttributeCreditHold;
 
 /**
  * Class CustomerSessionManagement
@@ -58,7 +59,7 @@ class CustomerSessionManagement
     public function getCustomerAttrCreditHold(): bool
     {
         $customerData = $this->session->getCustomerData();
-        $customerAttribute = $customerData->getCustomAttribute($this->configProvider::ATTRIBUTE_CODE_CREDIT_HOLD);
+        $customerAttribute = $customerData->getCustomAttribute(AddCustomerAttributeCreditHold::ATTRIBUTE_CODE);
         if ($customerAttribute !== null) {
             $value = (bool)$customerAttribute->getValue();
         } else {
@@ -75,7 +76,7 @@ class CustomerSessionManagement
      */
     public function getFlag(): bool
     {
-        return (bool)$this->session->getData($this->configProvider::SESSION_FLAG);
+        return (bool)$this->session->getData(ConfigProvider::SESSION_FLAG);
     }
 
     /**
@@ -85,7 +86,7 @@ class CustomerSessionManagement
      */
     public function setFlag(): void
     {
-        $this->session->setData($this->configProvider::SESSION_FLAG, true);
+        $this->session->setData(ConfigProvider::SESSION_FLAG, true);
     }
 
     /**

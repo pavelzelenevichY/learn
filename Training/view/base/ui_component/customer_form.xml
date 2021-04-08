@@ -78,7 +78,7 @@
                 </settings>
             </insertForm>
         </modal>
-        <insertListing name="customer_note_listing" >
+        <insertListing name="customer_note_listing">
             <settings>
                 <dataLinks>
                     <exports>true</exports>

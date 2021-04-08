@@ -90,19 +90,19 @@ class AccountNoteDataProvider extends DataProvider
     {
         $customerId = $this->adminSessionManagement->getCustomerId();
 
-        $filterSetField = $this->filterBuilder->setField('customer_id');
-        $filterSetValue = $filterSetField->setValue($customerId);
-        $filter = $filterSetValue->create();
+        $this->filterBuilder->setField('customer_id');
+        $this->filterBuilder->setValue($customerId);
+        $filter = $this->filterBuilder->create();
 
-        $searchCriteriaAddFilter = $this->searchCriteriaBuilder->addFilter($filter);
-        $searchCriteria = $searchCriteriaAddFilter->create();
+        $this->searchCriteriaBuilder->addFilter($filter);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
 
-        $list = $this->noteRepository->getList($searchCriteria);
-        $items = $list->getItems();
+        $noteList = $this->noteRepository->getList($searchCriteria);
+        $noteListItems = $noteList->getItems();
 
         $returnData['items'] = [];
 
-        foreach ($items as $item) {
+        foreach ($noteListItems as $item) {
             $returnData['items'][] = $item->getData();
         }
         $returnData['totalRecords'] = count($returnData['items']);
