@@ -105,9 +105,6 @@ class Save extends Action
                 $resultData = [
                     'success' => true,
                     'message' => __(''),
-                    'data' => [
-                        'note_id' => $noteId
-                    ]
                 ];
             } else {
                 $data = [
@@ -122,9 +119,6 @@ class Save extends Action
                 $resultData = [
                     'success' => true,
                     'message' => __(''),
-                    'data' => [
-                        'note_id' => $noteId
-                    ]
                 ];
             }
 
@@ -136,33 +130,16 @@ class Save extends Action
                     'success' => false,
                     'message' => $exception->getMessage()
                 ];
-                throw $exception;
             }
         } else {
             $resultData = [
                 'success' => false,
                 'message' => __('Note text is missed.'),
-                'data' => [
-                    'note_id' => $noteId
-                ]
             ];
         }
 
         $resultJson->setData($resultData);
-////
-//        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-//        $resultRedirect->setHeader('sad', 'asd',);
-//        $resultRedirect->setHttpResponseCode(1);
-//        $resultRedirect->renderResult($response);
-////        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-//        return $resultRedirect;
 
-//        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-//
-//        // Your code
-//
-//        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-//        return $resultRedirect;
         return $resultJson;
     }
 }
