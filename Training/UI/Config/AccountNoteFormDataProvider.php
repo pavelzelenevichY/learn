@@ -24,7 +24,7 @@ class AccountNoteFormDataProvider extends AbstractDataProvider
      *
      * @var array
      */
-    protected $loadedData;
+    private $loadedData;
 
     /**
      * AccountNoteFormDataProvider constructor.

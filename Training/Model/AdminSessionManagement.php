@@ -12,6 +12,7 @@ namespace Codifi\Training\Model;
 
 use Magento\Backend\Model\Auth\Session;
 use Magento\Backend\Model\Session as BackendSession;
+use Codifi\Training\Setup\Patch\Data\AddCustomerAttributeCreditHold;
 
 /**
  * Class AdminSessionManagement
@@ -71,7 +72,7 @@ class AdminSessionManagement
     {
         $customerData = $this->backendSession->getCustomerData();
 
-        return isset($customerData['account'][ConfigProvider::ATTRIBUTE_CODE_CREDIT_HOLD]) && $customerData['account'][ConfigProvider::ATTRIBUTE_CODE_CREDIT_HOLD];
+        return isset($customerData['account'][AddCustomerAttributeCreditHold::ATTRIBUTE_CODE]) && $customerData['account'][AddCustomerAttributeCreditHold::ATTRIBUTE_CODE];
     }
 
     /**

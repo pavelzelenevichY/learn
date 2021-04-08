@@ -81,7 +81,7 @@
                 </settings>
             </insertForm>
         </modal>
-        <insertListing name="customer_note_listing" >
+        <insertListing name="customer_note_listing">
             <settings>
                 <autoRender>true</autoRender>
                 <selectionsProvider>customer_note_listing.customer_note_listing.columns.ids</selectionsProvider>

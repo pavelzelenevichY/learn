@@ -15,14 +15,13 @@ use Codifi\Training\Api\NoteRepositoryInterface;
 use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\CustomerNoteFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResourse;
-use Codifi\Training\Api\Data\NoteSearchResultInterfaceFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Codifi\Training\Api\Data\NoteSearchResultInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Exception;
 use Codifi\Training\Model\ResourceModel\CustomerNote\CollectionFactory;
 use Codifi\Training\Model\ResourceModel\CustomerNote\Collection;
+use Magento\Framework\Api\SearchResultsInterfaceFactory;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
@@ -46,9 +45,9 @@ class NoteRepository implements NoteRepositoryInterface
     private $noteResourse;
 
     /**
-     * Note search result factory.
+     * Search result interface factory.
      *
-     * @var NoteSearchResultInterfaceFactory
+     * @var SearchResultsInterfaceFactory
      */
     private $searchResultFactory;
 
@@ -60,11 +59,15 @@ class NoteRepository implements NoteRepositoryInterface
     private $collectionProcessor;
 
     /**
+     * Customer note collection factory.
+     *
      * @var CollectionFactory
      */
     private $customerNoteCollectionFactory;
 
     /**
+     * Customer note collection.
+     *
      * @var Collection
      */
     private $noteCollection;
@@ -74,13 +77,13 @@ class NoteRepository implements NoteRepositoryInterface
      *
      * @param CustomerNoteFactory $noteFactory
      * @param CustomerNoteResourse $noteResourse
-     * @param NoteSearchResultInterfaceFactory $searchResultFactory
+     * @param SearchResultsInterfaceFactory $searchResultFactory
      * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
         CustomerNoteFactory $noteFactory,
         CustomerNoteResourse $noteResourse,
-        NoteSearchResultInterfaceFactory $searchResultFactory,
+        SearchResultsInterfaceFactory $searchResultFactory,
         CollectionProcessorInterface $collectionProcessor,
         CollectionFactory $customerNoteCollectionFactory,
         Collection $noteCollection

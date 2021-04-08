@@ -26,7 +26,7 @@ class AdminNameReceiver extends Column
      *
      * @var CollectionFactory
      */
-    public $userCollectionFactory;
+    private $userCollectionFactory;
 
     /**
      * AdminNameReceiver constructor.
@@ -83,16 +83,16 @@ class AdminNameReceiver extends Column
      */
     private function getAdminName($userId): string
     {
-        $useerName = '';
+        $userName = '';
         $userCollection = $this->userCollectionFactory->create();
         $users = $userCollection->getData();
         foreach ($users as $user) {
             if ((int)$user['user_id'] === $userId) {
-                $useerName = $user['firstname'] . ' ' . $user['lastname'] . ' (ID: ' . $user['user_id'] . ')';
+                $userName = $user['firstname'] . ' ' . $user['lastname'] . ' (ID: ' . $user['user_id'] . ')';
                 break;
             }
         }
 
-        return $useerName;
+        return $userName;
     }
 }

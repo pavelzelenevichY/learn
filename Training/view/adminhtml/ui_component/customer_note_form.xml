@@ -12,7 +12,7 @@
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">customer_note_form.customer_note_form_data_source</item>
         </item>
-        <item name="label" xsi:type="string" translate="true">Insert </item>
+<!--        <item name="label" xsi:type="string" translate="true">Insert </item>-->
         <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
     <settings>
