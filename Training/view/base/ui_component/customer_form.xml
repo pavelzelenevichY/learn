@@ -52,10 +52,17 @@
                                 <item name="class" xsi:type="string">action-primary</item>
                                 <item name="actions" xsi:type="array">
                                     <item name="0" xsi:type="array">
-                                        <item name="targetName" xsi:type="string">index = customer_note_form_loader</item>
+                                        <item name="targetName" xsi:type="string">index = customer_note_form</item>
                                         <item name="actionName" xsi:type="string">save</item>
                                     </item>
                                     <item name="1" xsi:type="string">closeModal</item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">customer_note_listing</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="refresh" xsi:type="boolean">true</item>
+                                        </item>
+                                        <item name="actionName" xsi:type="string">reload</item>
+                                    </item>
                                 </item>
                             </item>
                         </option>
@@ -63,10 +70,6 @@
             </settings>
             <insertForm name="customer_note_form_loader">
                 <settings>
-                    <dataLinks>
-                        <exports>true</exports>
-                        <imports>true</imports>
-                    </dataLinks>
                     <formSubmitType>ajax</formSubmitType>
                     <renderUrl path="mui/index/render">
                         <param name="handle">customer_note_form</param>
@@ -80,9 +83,6 @@
         </modal>
         <insertListing name="customer_note_listing">
             <settings>
-                <dataLinks>
-                    <exports>true</exports>
-                </dataLinks>
                 <autoRender>true</autoRender>
                 <selectionsProvider>customer_note_listing.customer_note_listing.columns.ids</selectionsProvider>
                 <dataScope>customer_note_listing</dataScope>
