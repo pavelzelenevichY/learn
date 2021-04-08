@@ -49,7 +49,7 @@ class Actions extends Column
     }
 
     /**
-     * Prepare data source.
+     * Prepare Data Source
      *
      * @param array $dataSource
      * @return array
