@@ -56,13 +56,6 @@
                                         <item name="actionName" xsi:type="string">save</item>
                                     </item>
                                     <item name="1" xsi:type="string">closeModal</item>
-                                    <item name="2" xsi:type="array">
-                                        <item name="targetName" xsi:type="string">customer_note_listing</item>
-                                        <item name="params" xsi:type="array">
-                                            <item name="refresh" xsi:type="boolean">true</item>
-                                        </item>
-                                        <item name="actionName" xsi:type="string">reload</item>
-                                    </item>
                                 </item>
                             </item>
                         </option>
