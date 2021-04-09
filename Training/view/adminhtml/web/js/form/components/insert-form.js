@@ -1,6 +1,8 @@
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
  */
 
 define([

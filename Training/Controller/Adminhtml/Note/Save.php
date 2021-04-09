@@ -10,23 +10,20 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Codifi\Training\Model\NoteRepository;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\Result\Json;
-use Magento\Framework\App\ResponseInterface;
 use Exception;
 
 class Save extends Action
 {
     /**
-     * Customer note factory.
+     * Customer note factory
      *
      * @var CustomerNoteFactory
      */
     private $customerNoteFactory;
 
     /**
-     * Customer note resource model.
+     * Customer note resource model
      *
      * @var CustomerNoteResource
      */
@@ -40,31 +37,31 @@ class Save extends Action
     private $adminSessionManagement;
 
     /**
-     * Note repository
-     *
-     * @var NoteRepository
-     */
-    private $noteRepository;
-
-    /**
-     * Json factory.
+     * Json factory
      *
      * @var JsonFactory
      */
     private $jsonFactory;
 
+    /**
+     * Save constructor.
+     *
+     * @param Context $context
+     * @param CustomerNoteFactory $customerNoteFactory
+     * @param CustomerNoteResource $customerNoteResource
+     * @param AdminSessionManagement $adminSessionManagement
+     * @param JsonFactory $jsonFactory
+     */
     public function __construct(
         Context $context,
         CustomerNoteFactory $customerNoteFactory,
         CustomerNoteResource $customerNoteResource,
         AdminSessionManagement $adminSessionManagement,
-        NoteRepository $noteRepository,
         JsonFactory $jsonFactory
     ) {
         $this->customerNoteFactory = $customerNoteFactory;
         $this->customerNoteResource = $customerNoteResource;
         $this->adminSessionManagement = $adminSessionManagement;
-        $this->noteRepository = $noteRepository;
         $this->jsonFactory = $jsonFactory;
         parent::__construct($context);
     }
@@ -72,10 +69,10 @@ class Save extends Action
     /**
      * Execute function
      *
-     * @return ResponseInterface|Json|ResultInterface
+     * @return Json
      * @throws Exception
      */
-    public function execute()
+    public function execute(): Json
     {
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
@@ -87,22 +84,22 @@ class Save extends Action
 
         $request = $this->getRequest();
         $noteId = $request->getParam('note_id');
-        $noteText = $request->getParam('note');
+        $note = $request->getParam('note');
         $createdAt = $request->getParam('created_at');
         $createdBy = $request->getParam('created_by');
 
-        if ($noteText) {
+        if ($note) {
             if (!$noteId) {
                 $data = [
                     'customer_id' => $customerId,
-                    'note' => $noteText,
+                    'note' => $note,
                     'created_by' => $adminId,
                     'updated_by' => $adminId,
                     'autocomplete' => 0
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __('Complete!'),
+                    'message' => __('Note has been successfully saved!'),
                     'data' => [
                         'note_id' => $noteId
                     ]
@@ -111,7 +108,7 @@ class Save extends Action
                 $data = [
                     'note_id' => $noteId,
                     'customer_id' => $customerId,
-                    'note' => $noteText,
+                    'note' => $note,
                     'created_at' => $createdAt,
                     'created_by' => $createdBy,
                     'updated_by' => $adminId,
@@ -119,7 +116,7 @@ class Save extends Action
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __('Complete!'),
+                    'message' => __('Note has been successfully updated!'),
                     'data' => [
                         'note_id' => $noteId
                     ]
