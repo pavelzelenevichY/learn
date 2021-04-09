@@ -10,22 +10,20 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Codifi\Training\Model\NoteRepository;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\AlreadyExistsException;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\Result\Json;
+use Exception;
 
 class Save extends Action
 {
     /**
-     * Customer note factory.
+     * Customer note factory
      *
      * @var CustomerNoteFactory
      */
     private $customerNoteFactory;
 
     /**
-     * Customer note resource model.
+     * Customer note resource model
      *
      * @var CustomerNoteResource
      */
@@ -39,44 +37,43 @@ class Save extends Action
     private $adminSessionManagement;
 
     /**
-     * Note repository
-     *
-     * @var NoteRepository
-     */
-    private $noteRepository;
-
-    /**
-     * Json factory.
+     * Json factory
      *
      * @var JsonFactory
      */
     private $jsonFactory;
 
+    /**
+     * Save constructor.
+     *
+     * @param Context $context
+     * @param CustomerNoteFactory $customerNoteFactory
+     * @param CustomerNoteResource $customerNoteResource
+     * @param AdminSessionManagement $adminSessionManagement
+     * @param JsonFactory $jsonFactory
+     */
     public function __construct(
         Context $context,
         CustomerNoteFactory $customerNoteFactory,
         CustomerNoteResource $customerNoteResource,
         AdminSessionManagement $adminSessionManagement,
-        NoteRepository $noteRepository,
         JsonFactory $jsonFactory
     ) {
         $this->customerNoteFactory = $customerNoteFactory;
         $this->customerNoteResource = $customerNoteResource;
         $this->adminSessionManagement = $adminSessionManagement;
-        $this->noteRepository = $noteRepository;
         $this->jsonFactory = $jsonFactory;
         parent::__construct($context);
     }
 
     /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
-     * @throws AlreadyExistsException
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * Execute function
+     *
+     * @return Json
+     * @throws Exception
      */
-    public function execute()
+    public function execute(): Json
     {
-
         $customerNoteModel = $this->customerNoteFactory->create();
         $resultJson = $this->jsonFactory->create();
 
@@ -85,32 +82,33 @@ class Save extends Action
         $adminId = $ids['admin_id'];
         $customerId = $ids['customer_id'];
 
-        $noteId = $this->getRequest()->getParam('note_id');
+        $request = $this->getRequest();
+        $noteId = $request->getParam('note_id');
+        $note = $request->getParam('note');
+        $createdAt = $request->getParam('created_at');
+        $createdBy = $request->getParam('created_by');
 
-        $noteText = $this->getRequest()->getParam('note');
-
-        $createdAt = $this->getRequest()->getParam('created_at');
-
-        $createdBy = $this->getRequest()->getParam('created_by');
-
-        if ($noteText) {
+        if ($note) {
             if (!$noteId) {
                 $data = [
                     'customer_id' => $customerId,
-                    'note' => $noteText,
+                    'note' => $note,
                     'created_by' => $adminId,
                     'updated_by' => $adminId,
                     'autocomplete' => 0
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __(''),
+                    'message' => __('Note has been successfully saved!'),
+                    'data' => [
+                        'note_id' => $noteId
+                    ]
                 ];
             } else {
                 $data = [
                     'note_id' => $noteId,
                     'customer_id' => $customerId,
-                    'note' => $noteText,
+                    'note' => $note,
                     'created_at' => $createdAt,
                     'created_by' => $createdBy,
                     'updated_by' => $adminId,
@@ -118,7 +116,10 @@ class Save extends Action
                 ];
                 $resultData = [
                     'success' => true,
-                    'message' => __(''),
+                    'message' => __('Note has been successfully updated!'),
+                    'data' => [
+                        'note_id' => $noteId
+                    ]
                 ];
             }
 
@@ -128,16 +129,21 @@ class Save extends Action
             } catch (LocalizedException $exception) {
                 $resultData = [
                     'success' => false,
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
+                    'data' => [
+                        'note_id' => ''
+                    ]
                 ];
             }
         } else {
             $resultData = [
                 'success' => false,
                 'message' => __('Note text is missed.'),
+                'data' => [
+                    'note_id' => ''
+                ]
             ];
         }
-
         $resultJson->setData($resultData);
 
         return $resultJson;

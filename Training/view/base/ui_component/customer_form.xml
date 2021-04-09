@@ -56,19 +56,17 @@
                                         <item name="actionName" xsi:type="string">save</item>
                                     </item>
                                     <item name="1" xsi:type="string">closeModal</item>
-                                    <item name="2" xsi:type="array">
-                                        <item name="targetName" xsi:type="string">customer_note_listing</item>
-                                        <item name="params" xsi:type="array">
-                                            <item name="refresh" xsi:type="boolean">true</item>
-                                        </item>
-                                        <item name="actionName" xsi:type="string">reload</item>
-                                    </item>
                                 </item>
                             </item>
                         </option>
                     </options>
             </settings>
-            <insertForm name="customer_note_form_loader">
+            <insertForm name="customer_note_form_loader" component="Codifi_Training/js/form/components/insert-form">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="noteListingProvider" xsi:type="string">index = customer_note_listing_data_source</item>
+                     </item>
+                </argument>
                 <settings>
                     <formSubmitType>ajax</formSubmitType>
                     <renderUrl path="mui/index/render">
