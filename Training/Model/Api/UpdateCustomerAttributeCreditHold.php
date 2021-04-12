@@ -17,7 +17,7 @@ use Magento\Customer\Model\Customer;
 use Magento\Customer\Model\ResourceModel\CustomerFactory;
 use Exception;
 use Codifi\Training\Model\NoteRepository;
-use Codifi\Training\Model\Note;
+use Codifi\Training\Model\CustomerNote;
 use Codifi\Training\Model\Api\GetResponse;
 use \Psr\Log\LoggerInterface;
 
@@ -61,7 +61,7 @@ class UpdateCustomerAttributeCreditHold implements UpdateCustomerAttributeCredit
     private $noteRepository;
 
     /**
-     * @var Note
+     * @var CustomerNote
      */
     private $note;
 
@@ -83,7 +83,7 @@ class UpdateCustomerAttributeCreditHold implements UpdateCustomerAttributeCredit
      * @param Customer $customer
      * @param CustomerFactory $customerFactory
      * @param NoteRepository $noteRepository
-     * @param Note $note
+     * @param CustomerNote $note
      * @param \Codifi\Training\Model\Api\GetResponse $getResponse
      * @param LoggerInterface $logger
      */
@@ -93,7 +93,7 @@ class UpdateCustomerAttributeCreditHold implements UpdateCustomerAttributeCredit
         Customer $customer,
         CustomerFactory $customerFactory,
         NoteRepository $noteRepository,
-        Note $note,
+        CustomerNote $note,
         GetResponse $getResponse,
         LoggerInterface $logger
     ) {

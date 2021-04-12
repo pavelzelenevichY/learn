@@ -34,6 +34,6 @@
         </arguments>
     </type>
     <preference for="Codifi\Training\Api\NoteRepositoryInterface" type="Codifi\Training\Model\NoteRepository"/>
-    <preference for="Codifi\Training\Api\Data\NoteInterface" type="Codifi\Training\Model\Note"/>
+    <preference for="Codifi\Training\Api\Data\NoteInterface" type="Codifi\Training\Model\CustomerNote"/>
     <preference for="Codifi\Training\Api\UpdateCustomerAttributeCreditHoldInterface" type="Codifi\Training\Model\Api\UpdateCustomerAttributeCreditHold"/>
 </config>
