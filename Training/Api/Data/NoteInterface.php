@@ -73,14 +73,14 @@ interface NoteInterface
      *
      * @return string
      */
-    public function getNoteText();
+    public function getNote();
 
     /**
      * Set note text.
      *
      * @param string $noteText
      */
-    public function setNoteText(string $noteText);
+    public function setNote(string $noteText);
 
     /**
      * Get autocomplete value.

@@ -1,41 +1,26 @@
 <?php
-
+/**
+ * Codifi_Training
+ *
+ * @copyright   Copyright (c) 2021 Codifi
+ * @author      Pavel Zelenevich <pzelenevich@codifi.me>
+ */
 
 namespace Codifi\Training\Controller\Adminhtml\Note;
 
-use Codifi\Training\Model\AdminSessionManagement;
-use Codifi\Training\Model\CustomerNoteFactory;
-use Codifi\Training\Model\ResourceModel\CustomerNote as CustomerNoteResource;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Controller\Result\Json;
+use Codifi\Training\Model\NoteRepository;
+use Codifi\Training\Model\CustomerNote;
+use Magento\Backend\Model\Auth\Session;
+use Magento\Backend\Model\Session as BackendSession;
 use Exception;
 
 class Save extends Action
 {
-    /**
-     * Customer note factory
-     *
-     * @var CustomerNoteFactory
-     */
-    private $customerNoteFactory;
-
-    /**
-     * Customer note resource model
-     *
-     * @var CustomerNoteResource
-     */
-    private $customerNoteResource;
-
-    /**
-     * Admin session management
-     *
-     * @var AdminSessionManagement
-     */
-    private $adminSessionManagement;
-
     /**
      * Json factory
      *
@@ -44,25 +29,52 @@ class Save extends Action
     private $jsonFactory;
 
     /**
+     * @var NoteRepository
+     */
+    private $noteRepository;
+
+    /**
+     * @var CustomerNote
+     */
+    private $note;
+
+    /**
+     * Auth session.
+     *
+     * @var Session
+     */
+    private $authSession;
+
+    /**
+     * Backend session.
+     *
+     * @var BackendSession
+     */
+    private $backendSession;
+
+    /**
      * Save constructor.
      *
      * @param Context $context
-     * @param CustomerNoteFactory $customerNoteFactory
-     * @param CustomerNoteResource $customerNoteResource
-     * @param AdminSessionManagement $adminSessionManagement
+     * @param CustomerNote $note
+     * @param NoteRepository $noteRepository
      * @param JsonFactory $jsonFactory
+     * @param Session $authSession
+     * @param BackendSession $backendSession
      */
     public function __construct(
         Context $context,
-        CustomerNoteFactory $customerNoteFactory,
-        CustomerNoteResource $customerNoteResource,
-        AdminSessionManagement $adminSessionManagement,
-        JsonFactory $jsonFactory
+        CustomerNote $note,
+        NoteRepository $noteRepository,
+        JsonFactory $jsonFactory,
+        Session $authSession,
+        BackendSession $backendSession
     ) {
-        $this->customerNoteFactory = $customerNoteFactory;
-        $this->customerNoteResource = $customerNoteResource;
-        $this->adminSessionManagement = $adminSessionManagement;
+        $this->note = $note;
+        $this->noteRepository = $noteRepository;
         $this->jsonFactory = $jsonFactory;
+        $this->authSession = $authSession;
+        $this->backendSession = $backendSession;
         parent::__construct($context);
     }
 
@@ -74,77 +86,47 @@ class Save extends Action
      */
     public function execute(): Json
     {
-        $customerNoteModel = $this->customerNoteFactory->create();
-        $resultJson = $this->jsonFactory->create();
-
-        $ids = $this->adminSessionManagement->getAdminId();
-
-        $adminId = $ids['admin_id'];
-        $customerId = $ids['customer_id'];
-
         $request = $this->getRequest();
-        $noteId = $request->getParam('note_id');
-        $note = $request->getParam('note');
-        $createdAt = $request->getParam('created_at');
-        $createdBy = $request->getParam('created_by');
 
-        if ($note) {
-            if (!$noteId) {
-                $data = [
-                    'customer_id' => $customerId,
-                    'note' => $note,
-                    'created_by' => $adminId,
-                    'updated_by' => $adminId,
-                    'autocomplete' => 0
-                ];
-                $resultData = [
-                    'success' => true,
-                    'message' => __('Note has been successfully saved!'),
-                    'data' => [
-                        'note_id' => $noteId
-                    ]
-                ];
-            } else {
-                $data = [
-                    'note_id' => $noteId,
-                    'customer_id' => $customerId,
-                    'note' => $note,
-                    'created_at' => $createdAt,
-                    'created_by' => $createdBy,
-                    'updated_by' => $adminId,
-                    'autocomplete' => 0
-                ];
-                $resultData = [
-                    'success' => true,
-                    'message' => __('Note has been successfully updated!'),
-                    'data' => [
-                        'note_id' => $noteId
-                    ]
-                ];
-            }
+        $admin = $this->authSession->getUser();
+        $adminId = $admin->getId();
+        $customerData = $this->backendSession->getCustomerData();
+        $customerId = (int)$customerData['account']['id'] ?? 0;
 
+        $success = false;
+        if ($request->getParam('note')) {
+            $noteText = $request->getParam('note');
             try {
-                $customerNoteModel->setData($data);
-                $this->customerNoteResource->save($customerNoteModel);
+                if ($request->getParam('note_id')) {
+                    $id = $request->getParam('note_id');
+                    $note = $this->noteRepository->getById($id);
+                    $note->setNote($noteText);
+                    $note->setUpdatedBy($adminId);
+                    $message = __('Note has been successfully updated!');
+                } else {
+                    $data = [
+                        'note' => $noteText,
+                        'customer_id' => $customerId,
+                        'created_by' => $adminId,
+                        'updated_by' => $adminId
+                    ];
+                    $note = $this->note->setData($data);
+                    $message = __('Note has been successfully saved!');
+                }
+                $this->noteRepository->save($note);
+                $success = true;
             } catch (LocalizedException $exception) {
-                $resultData = [
-                    'success' => false,
-                    'message' => $exception->getMessage(),
-                    'data' => [
-                        'note_id' => ''
-                    ]
-                ];
+                $message = $exception->getMessage();
             }
         } else {
-            $resultData = [
-                'success' => false,
-                'message' => __('Note text is missed.'),
-                'data' => [
-                    'note_id' => ''
-                ]
-            ];
+            $message = __('Note text is missed.');
         }
-        $resultJson->setData($resultData);
+
+        $resultJson = $this->jsonFactory->create();
+        $resultJson->setData([
+            'success' => $success,
+            'message' => $message
+        ]);
 
         return $resultJson;
     }
