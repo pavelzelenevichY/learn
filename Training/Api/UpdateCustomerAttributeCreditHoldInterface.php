@@ -12,6 +12,7 @@ interface UpdateCustomerAttributeCreditHoldInterface
 {
     /**
      * Get POST api query
+     *
      * @return array
      */
     public function getPost();

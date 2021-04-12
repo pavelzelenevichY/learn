@@ -6,6 +6,8 @@
  * @author      Pavel Zelenevich <pzelenevich@codifi.me>
  */
 
+declare(strict_types=1);
+
 namespace Codifi\Training\Model\Api;
 
 use Magento\Framework\Webapi\Rest\Request;
@@ -14,7 +16,8 @@ use Magento\Customer\Model\ResourceModel\CustomerRepository;
 use Codifi\Training\Model\Note\NoteSave;
 use Magento\Customer\Model\Customer;
 use Magento\Customer\Model\ResourceModel\CustomerFactory;
-use Magento\Framework\Controller\Result\Json;
+use Laminas\Log\Writer\Stream;
+use Laminas\Log\Logger;
 use Exception;
 
 class UpdateCustomerAttributeCreditHold implements UpdateCustomerAttributeCreditHoldInterface
@@ -88,8 +91,8 @@ class UpdateCustomerAttributeCreditHold implements UpdateCustomerAttributeCredit
         $customerId = $params['customerId'];
         $creditHoldValue = $params['credit_hold'];
 
-        $writer = new \Laminas\Log\Writer\Stream(BP . '/var/log/myfilelog.log');
-        $logger = new \Laminas\Log\Logger();
+        $writer = new Stream(BP . '/var/log/myfilelog.log');
+        $logger = new Logger();
         $logger->addWriter($writer);
 
         if ($customerId >= 1) {
