@@ -39,29 +39,39 @@ class Save extends Action
     private $noteRepository;
 
     /**
+     * Customer note factory
+     *
      * @var CustomerNoteFactory
      */
     private $noteFactory;
 
     /**
-     * Auth session.
+     * Auth session
      *
      * @var Session
      */
     private $authSession;
 
     /**
-     * Backend session.
+     * Backend session from context
      */
     private $backendSession;
 
+    /**
+     * Save constructor.
+     *
+     * @param Context $context
+     * @param CustomerNoteFactory $noteFactory
+     * @param NoteRepository $noteRepository
+     * @param JsonFactory $jsonFactory
+     * @param Session $authSession
+     */
     public function __construct(
         Context $context,
         CustomerNoteFactory $noteFactory,
         NoteRepository $noteRepository,
         JsonFactory $jsonFactory,
-        Session $authSession,
-        $backendSession
+        Session $authSession
     ) {
         $this->noteFactory = $noteFactory;
         $this->noteRepository = $noteRepository;
@@ -94,7 +104,6 @@ class Save extends Action
                 if ($id) {
                     $note = $this->noteRepository->getById($id);
                     $note->setUpdatedBy($adminId);
-                    $message = __('Note has been successfully updated!');
                 } else {
                     $data = [
                         'customer_id' => $customerId,
@@ -102,8 +111,8 @@ class Save extends Action
                     ];
                     $note = $this->noteFactory->create();
                     $note->setData($data);
-                    $message = __('Note has been successfully saved!');
                 }
+                $message = __('Note has been successfully saved!');
                 $note->setNote($noteText);
                 $this->noteRepository->save($note);
             } catch (LocalizedException $exception) {
