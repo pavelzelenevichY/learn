@@ -21,7 +21,7 @@ class Handler extends Base
      * Logging level
      * @var int
      */
-    protected $loggerType = Logger::INFO;
+    protected $loggerType = Logger::ERROR;
 
     /**
      * File name
