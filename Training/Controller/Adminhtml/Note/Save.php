@@ -8,17 +8,20 @@
 
 namespace Codifi\Training\Controller\Adminhtml\Note;
 
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Controller\Result\Json;
 use Codifi\Training\Model\NoteRepository;
-use Codifi\Training\Model\CustomerNote;
+use Codifi\Training\Model\CustomerNoteFactory;
 use Magento\Backend\Model\Auth\Session;
-use Magento\Backend\Model\Session as BackendSession;
 use Exception;
 
+/**
+ * Class Save
+ * @package Codifi\Training\Controller\Adminhtml\Note
+ */
 class Save extends Action
 {
     /**
@@ -29,14 +32,16 @@ class Save extends Action
     private $jsonFactory;
 
     /**
+     * Note repository
+     *
      * @var NoteRepository
      */
     private $noteRepository;
 
     /**
-     * @var CustomerNote
+     * @var CustomerNoteFactory
      */
-    private $note;
+    private $noteFactory;
 
     /**
      * Auth session.
@@ -47,34 +52,22 @@ class Save extends Action
 
     /**
      * Backend session.
-     *
-     * @var BackendSession
      */
     private $backendSession;
 
-    /**
-     * Save constructor.
-     *
-     * @param Context $context
-     * @param CustomerNote $note
-     * @param NoteRepository $noteRepository
-     * @param JsonFactory $jsonFactory
-     * @param Session $authSession
-     * @param BackendSession $backendSession
-     */
     public function __construct(
         Context $context,
-        CustomerNote $note,
+        CustomerNoteFactory $noteFactory,
         NoteRepository $noteRepository,
         JsonFactory $jsonFactory,
         Session $authSession,
-        BackendSession $backendSession
+        $backendSession
     ) {
-        $this->note = $note;
+        $this->noteFactory = $noteFactory;
         $this->noteRepository = $noteRepository;
         $this->jsonFactory = $jsonFactory;
         $this->authSession = $authSession;
-        $this->backendSession = $backendSession;
+        $this->backendSession = $context->getSession();
         parent::__construct($context);
     }
 
@@ -93,33 +86,33 @@ class Save extends Action
         $customerData = $this->backendSession->getCustomerData();
         $customerId = (int)$customerData['account']['id'] ?? 0;
 
-        $success = false;
-        if ($request->getParam('note')) {
-            $noteText = $request->getParam('note');
+        $success = true;
+        $noteText = $request->getParam('note');
+        if ($noteText) {
             try {
-                if ($request->getParam('note_id')) {
-                    $id = $request->getParam('note_id');
+                $id = $request->getParam('note_id');
+                if ($id) {
                     $note = $this->noteRepository->getById($id);
-                    $note->setNote($noteText);
                     $note->setUpdatedBy($adminId);
                     $message = __('Note has been successfully updated!');
                 } else {
                     $data = [
-                        'note' => $noteText,
                         'customer_id' => $customerId,
                         'created_by' => $adminId,
-                        'updated_by' => $adminId
                     ];
-                    $note = $this->note->setData($data);
+                    $note = $this->noteFactory->create();
+                    $note->setData($data);
                     $message = __('Note has been successfully saved!');
                 }
+                $note->setNote($noteText);
                 $this->noteRepository->save($note);
-                $success = true;
             } catch (LocalizedException $exception) {
                 $message = $exception->getMessage();
+                $success = false;
             }
         } else {
             $message = __('Note text is missed.');
+            $success = false;
         }
 
         $resultJson = $this->jsonFactory->create();
