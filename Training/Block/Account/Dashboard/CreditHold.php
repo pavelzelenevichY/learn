@@ -16,7 +16,7 @@ use Codifi\Training\Model\ConfigProvider;
 use Codifi\Training\Model\CustomerSessionManagement;
 
 /**
- * Class CreditHoldInterface
+ * Class CreditHold
  * @package Codifi\Training\Block\Account\Dashboard
  */
 class CreditHold extends Template
@@ -36,7 +36,7 @@ class CreditHold extends Template
     private $configProvider;
 
     /**
-     * CreditHoldInterface constructor.
+     * CreditHold constructor.
      *
      * @param Context $context
      * @param CustomerSessionManagement $customerSession

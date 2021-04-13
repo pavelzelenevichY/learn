@@ -87,15 +87,15 @@ class CreditHoldAttributeManagement implements CreditHoldAttributeManagementInte
      * Update attribute
      *
      * @param int $customerId
-     * @param int $credit_hold
+     * @param int $creditHold
      * @return AttributeManagementResponseInterface
      */
-    public function updateAttribute(int $customerId, int $credit_hold): AttributeManagementResponseInterface
+    public function updateAttribute(int $customerId, int $creditHold): AttributeManagementResponseInterface
     {
         $status = AttributeManagementResponseInterface::STATUS_OK;
         try {
             $customer = $this->customerRepository->getById($customerId);
-            $customer->setCustomAttribute(AddCustomerAttributeCreditHold::ATTRIBUTE_CODE, $credit_hold);
+            $customer->setCustomAttribute(AddCustomerAttributeCreditHold::ATTRIBUTE_CODE, $creditHold);
             $this->customerRepository->save($customer);
             $data = [
                 'note' => __('Credit hold status has been updated via API request.'),

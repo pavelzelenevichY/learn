@@ -15,14 +15,14 @@ namespace Codifi\Training\Api;
 interface AttributeManagementResponseInterface
 {
     /**
-     * Successful request status
+     * Successful response status
      *
      * @var string
      */
     const STATUS_OK = 'OK';
 
     /**
-     * Failed request status
+     * Failed response status
      *
      * @var string
      */

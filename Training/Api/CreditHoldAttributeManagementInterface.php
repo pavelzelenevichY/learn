@@ -18,8 +18,8 @@ interface CreditHoldAttributeManagementInterface
      * Update attribute
      *
      * @param int $customerId
-     * @param int $credit_hold
+     * @param int $creditHold
      * @return AttributeManagementResponseInterface
      */
-    public function updateAttribute(int $customerId, int $credit_hold): AttributeManagementResponseInterface;
+    public function updateAttribute(int $customerId, int $creditHold): AttributeManagementResponseInterface;
 }
